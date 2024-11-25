@@ -19,6 +19,41 @@ public abstract class Enemy extends Entity {
         initHitbox(x,y,width,height);
     }
 
+    protected void firstUpdateCheck(int[][] lvldata){
+        if (!grounded(hitbox, lvldata)) {
+            inAir = true;
+            firstupdate = false;
+        }
+    }
+
+    protected void updateInAir(int[][] lvldata){
+        if(canMove(hitbox.x, hitbox.y + fallSpeed, hitbox.width, hitbox.height, lvldata)){
+            hitbox.y += fallSpeed;
+            fallSpeed += gravity;
+        }else{
+            inAir = false;
+            hitbox.y = getEntityYpos(hitbox, fallSpeed);
+        }
+    }
+
+    protected void move(int[][] lvldata){
+        float xspeed = 0;
+
+        if(walkDir == LEFT){
+            xspeed = -walkspeed;
+        }else{
+            xspeed = walkspeed;
+        }
+
+        if(canMove(hitbox.x + xspeed, hitbox.y, hitbox.width, hitbox.height, lvldata))
+            if(isFloor(hitbox,xspeed,lvldata)){
+                hitbox.x += xspeed;
+                return;
+            }
+
+        changeWalkDir();
+    }
+
     protected void updateAnimTick(){
         animTick++;
         if(animTick >= animSpeed){

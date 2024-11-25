@@ -20,40 +20,17 @@ public class Slime extends Enemy{
 
     private void updateMove(int[][] lvldata){
         if(firstupdate) {
-            if (!grounded(hitbox, lvldata)) {
-                inAir = true;
-                firstupdate = false;
-            }
+            firstUpdateCheck(lvldata);
         }
         if(inAir){
-            if(canMove(hitbox.x, hitbox.y + fallSpeed, hitbox.width, hitbox.height, lvldata)){
-                hitbox.y += fallSpeed;
-                fallSpeed += gravity;
-            }else{
-                inAir = false;
-                hitbox.y = getEntityYpos(hitbox, fallSpeed);
-            }
+            updateInAir(lvldata);
         }else{
             switch(enemyState){
                 case idle:
                     enemyState = slimeRunning;
                     break;
                 case slimeRunning:
-                    float xspeed = 0;
-
-                    if(walkDir == LEFT){
-                        xspeed = -walkspeed;
-                    }else{
-                        xspeed = walkspeed;
-                    }
-
-                    if(canMove(hitbox.x + xspeed, hitbox.y, hitbox.width, hitbox.height, lvldata))
-                        if(isFloor(hitbox,xspeed,lvldata)){
-                            hitbox.x += xspeed;
-                            return;
-                        }
-
-                    changeWalkDir();
+                    move(lvldata);
                     break;
             }
         }
