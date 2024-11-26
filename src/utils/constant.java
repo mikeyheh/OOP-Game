@@ -31,7 +31,17 @@ public class constant {
             }
             return 0;
         }
+        public static int enemyDMG(int enemyType){
+            switch (enemyType){
+                case Slime:
+                    return 1;
+                default:
+                    return 0;
+            }
+        }
     }
+
+
     public static class Directions{
         public static final int LEFT = 0;
         public static final int UP = 1;

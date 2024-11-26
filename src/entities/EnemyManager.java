@@ -3,6 +3,8 @@ package entities;
 import Main.Game;
 import utils.loadSave;
 import static utils.constant.enemyConstants.*;
+
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import java.awt.*;
@@ -21,9 +23,10 @@ public class EnemyManager {
         slimes = loadSave.GetSlimes();
     }
 
-    public void update(int[][] lvldata){
+
+    public void update(int[][] lvldata, Player player){
         for(Slime s : slimes){
-            s.update(lvldata);
+            s.update(lvldata, player);
         }
     }
 
@@ -34,10 +37,19 @@ public class EnemyManager {
 
     private void drawSlimes(Graphics g) {
         for(Slime s : slimes){
-            g.drawImage(slimeArr[s.getEnemyState()][s.getAnimIndex()],(int)s.getHitbox().x - slimeOffsetX, (int)s.getHitbox().y -slimeOffsetY,slimeWidth,slimeHeight,null);
+            g.drawImage(slimeArr[s.getEnemyState()][s.getAnimIndex()],(int)s.getHitbox().x - slimeOffsetX + s.flipX(), (int)s.getHitbox().y -slimeOffsetY,slimeWidth *s.flipW(),slimeHeight,null);
             //s.drawHitbox(g);
+            //s.drawAttackBox(g);
         }
     }
+
+//    public void checkEnemyHit(Rectangle2D.Float attackbox){
+//        for(Slime s : slimes){
+//            if(attackbox.intersects(s.getHitbox())){
+//                System.out.println("HIT!");
+//            }
+//        }
+//    }
 
     private void loadEnemy() {
         slimeArr = new BufferedImage[3][4];
@@ -46,6 +58,12 @@ public class EnemyManager {
             for(int i = 0; i < slimeArr[j].length; i++){
                 slimeArr[j][i] = temp.getSubimage(i *slimeDefaultWidth, j*slimeDefaultHeight,slimeDefaultWidth, slimeDefaultHeight );
             }
+        }
+    }
+
+    public void resetEnemies(){
+        for(Slime s : slimes){
+            s.resetEnemy();
         }
     }
 }

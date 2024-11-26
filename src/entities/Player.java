@@ -1,5 +1,6 @@
 package entities;
 
+import GameStates.Playing;
 import Main.Game;
 import utils.loadSave;
 import java.awt.*;
@@ -25,13 +26,22 @@ public class Player extends Entity{
     private float fallSpeedAfterCollision = 0.5f * Game.scale;
     private boolean inAir = false;
     private boolean facingRight = true;
-    public Player(float x, float y, int width, int height) {
+
+    private int maxHealth = 1;
+    private int currentHealth = 1;
+    private Playing playing;
+    public Player(float x, float y, int width, int height, Playing playing) {
         super(x, y, width,height);
+        this.playing = playing;
         loadAnimations();
         initHitbox(x,y, 20*Game.scale, 28*Game.scale);
     }
 
     public void update(){
+        if(currentHealth <= 0){
+            playing.setGameOver(true);
+            return;
+        }
         updatePosition();
         updateAnimationTick();
         setAnimation();
@@ -166,6 +176,16 @@ public class Player extends Entity{
 
     }
 
+    public void changeHealth(int val){
+        currentHealth += val;
+        if(currentHealth <= 0){
+           currentHealth = 0;
+        }
+        else if(currentHealth >= maxHealth){
+            currentHealth = maxHealth;
+        }
+    }
+
     private void loadAnimations() {
             BufferedImage img = loadSave.getSpriteAtlas(loadSave.playerAtlas);
 
@@ -224,6 +244,20 @@ public class Player extends Entity{
     }
     public void setJump(boolean jump){
         this.jump = jump;
+    }
+
+    public void resetAll(){
+        resetDir();
+        inAir = false;
+        moving = false;
+        playerAction = noWeaponIdle;
+        currentHealth = maxHealth;
+
+        hitbox.x = x;
+        hitbox.y = y;
+        if(!grounded(hitbox,lvl)){
+            inAir = true;
+        }
     }
 }
 

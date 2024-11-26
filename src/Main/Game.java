@@ -1,9 +1,13 @@
 package Main;
 
 
+import GameStates.Gamestate;
+import GameStates.Menu;
+import GameStates.Playing;
 import entities.EnemyManager;
 import entities.Player;
 import Levels.levelManager;
+
 
 import java.awt.*;
 
@@ -11,11 +15,11 @@ public class Game implements Runnable{
     private Window gameWindow;
     private GamePanel panel;
     private Thread gameThread;
-    private final int FpsSet = 60;
+    private final int FpsSet = 120;
     private final int UpsSet = 200;
-    private Player player;
-    private levelManager levelManager;
-    private EnemyManager enemyManager;
+
+    private Playing playing;
+    private Menu menu;
 
     public final static int tileDefaultSize = 32;
     public final static float scale = 2f;
@@ -36,10 +40,8 @@ public class Game implements Runnable{
     }
 
     private void initClasses() {
-        levelManager = new levelManager(this);
-        enemyManager = new EnemyManager(this);
-        player = new Player(200,200,(int) (50*scale), (int) (37*scale));
-        player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
+        menu = new Menu(this);
+        playing = new Playing(this);
     }
 
     private void gameLoop(){
@@ -48,14 +50,29 @@ public class Game implements Runnable{
     }
 
     public void update(){
-        levelManager.update();
-        player.update();
-        enemyManager.update(levelManager.getCurrentLevel().getLevelData());
+        switch(Gamestate.state){
+            case Menu:
+                menu.update();
+                break;
+            case Playing:
+                playing.update();
+                break;
+            default:
+                break;
+        }
     }
     public void render(Graphics g){
-        levelManager.draw(g);
-        player.render(g);
-        enemyManager.draw(g);
+        switch(Gamestate.state){
+            case Menu:
+                menu.draw(g);
+                break;
+            case Playing:
+                playing.draw(g);
+                break;
+            default:
+                break;
+        }
+
     }
 
     public void run(){
@@ -98,10 +115,16 @@ public class Game implements Runnable{
         }
     }
     public void windowFocusLost(){
-        player.resetDir();
+        if(Gamestate.state == Gamestate.Playing){
+            playing.getPlayer().resetDir();
+        }
     }
 
-    public Player getPlayer() {
-        return player;
+    public Menu getMenu(){
+        return menu;
     }
+    public Playing getPlaying(){
+        return playing;
+    }
+
 }

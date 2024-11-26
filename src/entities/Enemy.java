@@ -1,6 +1,8 @@
 package entities;
 import Main.Game;
 
+import java.awt.geom.Rectangle2D;
+
 import static utils.constant.enemyConstants.*;
 import static utils.helpMethods.*;
 import static utils.constant.Directions.*;
@@ -12,11 +14,16 @@ public abstract class Enemy extends Entity {
     protected float fallSpeed, gravity = 0.04f * Game.scale;
     protected float walkspeed = 0.45f * Game.scale;
     protected int walkDir = LEFT;
+    protected Rectangle2D.Float detection;
+    protected boolean attackChecked;
 
     public Enemy(float x, float y, int width, int height, int enemyType){
         super(x, y, width, height);
         this.enemyType = enemyType;
         initHitbox(x,y,width,height);
+    }
+    private void hitDetection(){
+        detection = new Rectangle2D.Float(x,y,(int)(26* Game.scale),(int)(18 * Game.scale));
     }
 
     protected void firstUpdateCheck(int[][] lvldata){
@@ -52,6 +59,18 @@ public abstract class Enemy extends Entity {
             }
 
         changeWalkDir();
+    }
+    protected void checkPlayerHit(Rectangle2D.Float attackbox, Player player){
+        if(attackbox.intersects(player.hitbox)){
+            player.changeHealth(-enemyDMG(enemyType));
+            attackChecked = true;
+        }
+    }
+
+    protected void newState(int enemyState){
+        this.enemyState = enemyState;
+        animTick = 0;
+        animIndex = 0;
     }
 
     protected void updateAnimTick(){
@@ -121,5 +140,13 @@ public abstract class Enemy extends Entity {
     }
     public int getEnemyState(){
         return enemyState;
+    }
+
+    public void resetEnemy(){
+        hitbox.x =x;
+        hitbox.y = y;
+        firstupdate = true;
+        newState(idle);
+        fallSpeed = 0;
     }
 }
