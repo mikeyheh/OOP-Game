@@ -1,20 +1,32 @@
 package Levels;
 
+import GameStates.Gamestate;
 import Main.Game;
+import entities.EnemyManager;
 import utils.loadSave;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class levelManager {
     private Game game;
     private BufferedImage[] level;
-    private level levelOne;
+    private ArrayList<level> levels;
+    private int lvlindex = 0;
 
     public levelManager(Game game){
         this.game = game;
         importOutsideSprite();
-        levelOne = new level(loadSave.getLevelData());
+        levels = new ArrayList<>();
+        buildAllLevels();
+    }
+
+    private void buildAllLevels() {
+        BufferedImage[] allLevels = loadSave.GetAllLevels();
+        for(BufferedImage img : allLevels){
+            levels.add(new level(img));
+        }
     }
 
     private void importOutsideSprite() {
@@ -30,8 +42,8 @@ public class levelManager {
 
     public void draw(Graphics g){
         for(int j = 0; j < Game.tileHeight; j++){
-            for(int i = 0; i < Game.tileWidth; i++){
-                int index = levelOne.getSpriteIndex(i,j);
+            for(int i = 0; i < levels.get(lvlindex).getLevelData()[0].length; i++){
+                int index = levels.get(lvlindex).getSpriteIndex(i,j);
                 g.drawImage(level[index],Game.tileSize*i,Game.tileSize*j, Game.tileSize, Game.tileSize,null);
             }
         }
@@ -42,6 +54,21 @@ public class levelManager {
     }
 
     public level getCurrentLevel(){
-        return levelOne;
+        return levels.get(lvlindex);
     }
+
+    public int numberofLevels(){
+        return levels.size();
+    }
+    public void loadNextLevel(){
+        lvlindex++;
+        if(lvlindex >= levels.size()){
+            lvlindex = 0;
+            Gamestate.state = Gamestate.Menu;
+        }
+        level newLevel = levels.get(lvlindex);
+        game.getPlaying().getEnemyManager().loadEnemies(newLevel);
+        game.getPlaying().getPlayer().loadLvlData(newLevel.getLevelData());
+    }
+
 }

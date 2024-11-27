@@ -1,5 +1,6 @@
 package entities;
 
+import Levels.level;
 import Main.Game;
 import utils.loadSave;
 import static utils.constant.enemyConstants.*;
@@ -16,11 +17,10 @@ public class EnemyManager {
     private ArrayList<Slime> slimes = new ArrayList<>();
     public EnemyManager(Game game){
         loadEnemy();
-        addEnemies();
     }
 
-    private void addEnemies() {
-        slimes = loadSave.GetSlimes();
+    public void loadEnemies(level level) {
+        slimes =level.getSlimes() ;
     }
 
 

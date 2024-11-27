@@ -21,6 +21,15 @@ public class Playing extends State implements Statemethods {
     public Playing(Game game) {
         super(game);
         initClasses();
+        loadStartLevel();
+    }
+    public void loadNextLevel(){
+        resetAll();
+        levelManager.loadNextLevel();
+    }
+
+    private void loadStartLevel() {
+        enemyManager.loadEnemies(levelManager.getCurrentLevel());
     }
 
     private void initClasses(){
@@ -124,6 +133,10 @@ public class Playing extends State implements Statemethods {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public EnemyManager getEnemyManager(){
+        return enemyManager;
     }
 }
 

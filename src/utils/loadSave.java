@@ -6,8 +6,11 @@ import entities.Slime;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import static utils.constant.enemyConstants.Slime;
 
@@ -34,35 +37,40 @@ public class loadSave {
         return img;
     }
 
-    public static ArrayList<Slime> GetSlimes(){
-        BufferedImage img = getSpriteAtlas(mapAtlas);
-        ArrayList<Slime> list = new ArrayList<>();
+    public static BufferedImage[] GetAllLevels(){
+        URL url = loadSave.class.getResource("/lvls");
+        File file = null;
 
-        for(int j = 0; j < img.getHeight(); j++){
-            for(int i = 0; i <img.getWidth();i++){
-                Color color = new Color(img.getRGB(i,j));
-                int val = color.getGreen();
-                if(val ==  Slime) {
-                    list.add(new Slime(i * Game.tileSize, j* Game.tileSize));
-                }
-            }
+        try {
+            assert url != null;
+            file = new File(url.toURI());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
         }
-        return list;
-    }
-    public static int[][] getLevelData(){
-        BufferedImage img = getSpriteAtlas(mapAtlas);
-        int[][] lvl = new int[img.getHeight()][img.getWidth()];
 
-        for(int j = 0; j < img.getHeight(); j++){
-            for(int i = 0; i <img.getWidth();i++){
-                Color color = new Color(img.getRGB(i,j));
-                int val = color.getRed();
-                if(val >= 48){
-                    val = 0;
-                }
-                lvl[j][i] = val;
+        assert file != null;
+        File[] files = file.listFiles();
+        assert files != null;
+        File[] filesSorted = new File[files.length];
+
+        for (int i = 0; i < filesSorted.length; i++)
+            for (int j = 0; j < files.length; j++) {
+                if (files[j].getName().equals((i + 1) + ".png"))
+                    filesSorted[i] = files[j];
+
             }
-        }
-        return lvl;
+
+        BufferedImage[] imgs = new BufferedImage[filesSorted.length];
+
+        for (int i = 0; i < imgs.length; i++)
+            try {
+                imgs[i] = ImageIO.read(filesSorted[i]);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        return imgs;
     }
+
+
 }

@@ -1,9 +1,12 @@
 package utils;
 
 import Main.Game;
+import entities.Slime;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class helpMethods {
     public static boolean canMove(float x, float y, float width, float height, int[][] lvl){
@@ -68,5 +71,35 @@ public class helpMethods {
 
     public static boolean isFloor(Rectangle2D.Float hitbox, float xspeed,int[][]lvl ){
         return isSolid(hitbox.x + xspeed, hitbox.y + hitbox.height + 1 , lvl);
+    }
+    public static int[][] GetLevelData(BufferedImage img){
+
+        int[][] lvl = new int[img.getHeight()][img.getWidth()];
+
+        for(int j = 0; j < img.getHeight(); j++){
+            for(int i = 0; i <img.getWidth();i++){
+                Color color = new Color(img.getRGB(i,j));
+                int val = color.getRed();
+                if(val >= 48){
+                    val = 0;
+                }
+                lvl[j][i] = val;
+            }
+        }
+        return lvl;
+    }
+    public static ArrayList<Slime> GetSlimes(BufferedImage img){
+        ArrayList<Slime> list = new ArrayList<>();
+
+        for(int j = 0; j < img.getHeight(); j++){
+            for(int i = 0; i <img.getWidth();i++){
+                Color color = new Color(img.getRGB(i,j));
+                int val = color.getGreen();
+                if(val ==  constant.enemyConstants.Slime) {
+                    list.add(new Slime(i * Game.tileSize, j* Game.tileSize));
+                }
+            }
+        }
+        return list;
     }
 }
