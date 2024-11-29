@@ -38,7 +38,7 @@ public class EnemyManager {
     private void drawSlimes(Graphics g) {
         for(Slime s : slimes){
             g.drawImage(slimeArr[s.getEnemyState()][s.getAnimIndex()],(int)s.getHitbox().x - slimeOffsetX + s.flipX(), (int)s.getHitbox().y -slimeOffsetY,slimeWidth *s.flipW(),slimeHeight,null);
-            s.drawHitbox(g);
+            //s.drawHitbox(g);
             //s.drawAttackBox(g);
         }
     }
