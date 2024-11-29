@@ -1,12 +1,15 @@
 package utils;
 
 import Main.Game;
+import Objects.Spikes;
 import entities.Slime;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+
+import static utils.constant.ObjectConstants.*;
 
 public class helpMethods {
     public static boolean canMove(float x, float y, float width, float height, int[][] lvl){
@@ -70,7 +73,11 @@ public class helpMethods {
     }
 
     public static boolean isFloor(Rectangle2D.Float hitbox, float xspeed,int[][]lvl ){
-        return isSolid(hitbox.x + xspeed, hitbox.y + hitbox.height + 1 , lvl);
+        if (xspeed > 00) {
+            return isSolid(hitbox.x +  xspeed + hitbox.width , hitbox.y + hitbox.height + 1 , lvl);
+        }else{
+            return isSolid(hitbox.x + xspeed, hitbox.y + hitbox.height + 1 , lvl);
+        }
     }
     public static int[][] GetLevelData(BufferedImage img){
 
@@ -97,6 +104,20 @@ public class helpMethods {
                 int val = color.getGreen();
                 if(val ==  constant.enemyConstants.Slime) {
                     list.add(new Slime(i * Game.tileSize, j* Game.tileSize));
+                }
+            }
+        }
+        return list;
+    }
+    public static ArrayList<Spikes> GetSpikes(BufferedImage img){
+        ArrayList<Spikes> list = new ArrayList<>();
+
+        for(int j = 0; j < img.getHeight(); j++){
+            for(int i = 0; i <img.getWidth();i++){
+                Color color = new Color(img.getRGB(i,j));
+                int val = color.getBlue();
+                if(val == Spike) {
+                    list.add(new Spikes(i * Game.tileSize, j* Game.tileSize,Spike));
                 }
             }
         }

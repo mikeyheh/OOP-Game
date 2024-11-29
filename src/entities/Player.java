@@ -42,9 +42,14 @@ public class Player extends Entity{
             playing.setGameOver(true);
             return;
         }
+        checkSpikesTouched();
         updatePosition();
         updateAnimationTick();
         setAnimation();
+    }
+
+    private void checkSpikesTouched() {
+        playing.checkSpikesTouched(this);
     }
 
     public void render(Graphics g){
@@ -184,6 +189,10 @@ public class Player extends Entity{
         else if(currentHealth >= maxHealth){
             currentHealth = maxHealth;
         }
+    }
+
+    public void kill(){
+        currentHealth = 0;
     }
 
     private void loadAnimations() {

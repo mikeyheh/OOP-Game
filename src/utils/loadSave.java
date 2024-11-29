@@ -20,6 +20,7 @@ public class loadSave {
     //public static final String mapAtlas ="level_one_data.png";
     public static final String mapAtlas ="level_one_data_long.png";
     public static final String Slimes = "slime-spritesheet.png";
+    public static final String Trap = "trap_atlas.png";
     public static BufferedImage getSpriteAtlas(String file){
         BufferedImage img = null;
         InputStream is = loadSave.class.getResourceAsStream("/" + file);
@@ -37,37 +38,21 @@ public class loadSave {
         return img;
     }
 
-    public static BufferedImage[] GetAllLevels(){
-        URL url = loadSave.class.getResource("/lvls");
-        File file = null;
+    public static BufferedImage[] GetAllLevels() {
+        // List all resource files manually (e.g., 1.png, 2.png, etc.)
+        String[] levelFiles = {"1.png"}; // Update with actual file names
+        BufferedImage[] imgs = new BufferedImage[levelFiles.length];
 
-        try {
-            assert url != null;
-            file = new File(url.toURI());
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-
-        assert file != null;
-        File[] files = file.listFiles();
-        assert files != null;
-        File[] filesSorted = new File[files.length];
-
-        for (int i = 0; i < filesSorted.length; i++)
-            for (int j = 0; j < files.length; j++) {
-                if (files[j].getName().equals((i + 1) + ".png"))
-                    filesSorted[i] = files[j];
-
-            }
-
-        BufferedImage[] imgs = new BufferedImage[filesSorted.length];
-
-        for (int i = 0; i < imgs.length; i++)
-            try {
-                imgs[i] = ImageIO.read(filesSorted[i]);
+        for (int i = 0; i < levelFiles.length; i++) {
+            try (InputStream is = loadSave.class.getResourceAsStream("/lvls/" + levelFiles[i])) {
+                if (is == null) {
+                    throw new IllegalStateException("File not found in resources: /lvls/" + levelFiles[i]);
+                }
+                imgs[i] = ImageIO.read(is);
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new IllegalStateException("Failed to load image: " + levelFiles[i], e);
             }
+        }
 
         return imgs;
     }

@@ -10,19 +10,23 @@ import static utils.constant.enemyConstants.*;
 
 public class Slime extends Enemy{
     private Rectangle2D.Float attackbox;
+    private int attackBoxOffsetX;
+
     public Slime(float x, float y) {
         super(x, y, slimeWidth, slimeHeight, Slime);
-        initHitbox(x,y,(int)(26* Game.scale),(int)(18 * Game.scale));
+        initHitbox(x,y,26,18 * Game.scale);
+        initattackbox();
     }
 
     private void initattackbox() {
         attackbox = new Rectangle2D.Float(x,y,(int)(26* Game.scale),(int)(18 * Game.scale));
+        attackBoxOffsetX = (int) (Game.scale * 30);
     }
 
     public void update(int[][] lvldata, Player player){
         updateBehavior(lvldata,player);
         updateAnimTick();
-        //updateAttackBox();
+        updateAttackBox();
     }
 
     private void updateAttackBox() {

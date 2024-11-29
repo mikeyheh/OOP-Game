@@ -4,6 +4,15 @@ import Main.Game;
 
 public class constant {
 
+    public static class ObjectConstants{
+        public static final int Spike = 4;
+
+        public static final int defaultSpikeWidth = 32;
+        public static final int defaultSpikeHeight = 32;
+        public static final int spikeWidth = (int)(Game.scale * defaultSpikeWidth);
+        public static final int spikeHeight = (int)(Game.scale * defaultSpikeHeight);
+    }
+
     public static class enemyConstants{
         public static final int Slime = 0;
 
