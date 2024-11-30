@@ -1,5 +1,6 @@
 package Levels;
 
+import Objects.Archer;
 import Objects.Spikes;
 import entities.Slime;
 
@@ -14,11 +15,17 @@ public class level {
     private int[][] lvl;
     private ArrayList< Slime> slimes;
     private ArrayList<Spikes> spikes;
+    private ArrayList<Archer> archers;
     public level(BufferedImage img){
         this.img = img;
         createLevelData();
         createEnemies();
         createSpikes();
+        createArchers();
+    }
+
+    private void createArchers() {
+        archers = helpMethods.GetArchers(img);
     }
 
     private void createSpikes() {
@@ -47,5 +54,8 @@ public class level {
 
     public ArrayList<Spikes> getSpikes() {
         return spikes;
+    }
+    public ArrayList<Archer> getArchers() {
+        return archers;
     }
 }

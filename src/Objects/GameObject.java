@@ -5,7 +5,7 @@ import Main.Game;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-import static utils.constant.enemyConstants.getSpriteAmount;
+import static utils.constant.ObjectConstants.*;
 
 public class GameObject {
     protected int x,y, objType;
@@ -13,7 +13,7 @@ public class GameObject {
     protected boolean doAnim;
     protected int animTick, animIndex;
     protected int xOffset, yOffset;
-    public int animSpeed = 25;
+    public int animSpeed = 50;
 
     public GameObject(int x, int y, int objType){
         this.x = x;
@@ -32,16 +32,16 @@ public class GameObject {
         g.drawRect((int)hitbox.x, (int)hitbox.y, (int)hitbox.width, (int)hitbox.height);
     }
 
-//    protected void updateAnimTick(){
-//        animTick++;
-//        if(animTick >= animSpeed){
-//            animTick = 0;
-//            animIndex++;
-//            if(animIndex >= getSpriteAmount(objType)){
-//                animIndex = 0;
-//            }
-//        }
-//    }
+    protected void updateAnimTick(){
+        animTick++;
+        if(animTick >= animSpeed){
+            animTick = 0;
+            animIndex++;
+            if(animIndex >= getSpriteAmount(objType)){
+                animIndex = 0;
+            }
+        }
+    }
 
     public void reset(){
         animIndex = 0;
@@ -58,7 +58,9 @@ public class GameObject {
         return yOffset;
     }
 
-
+    public void setAnimation(boolean doAnim){
+        this.doAnim = doAnim;
+    }
 
     public int getObjType() {
         return objType;

@@ -6,11 +6,26 @@ public class constant {
 
     public static class ObjectConstants{
         public static final int Spike = 4;
+        public static final int archer_left = 5;
+        public static final int archer_right = 6;
 
         public static final int defaultSpikeWidth = 32;
         public static final int defaultSpikeHeight = 32;
         public static final int spikeWidth = (int)(Game.scale * defaultSpikeWidth);
         public static final int spikeHeight = (int)(Game.scale * defaultSpikeHeight);
+
+        public static final int defaultArcherWidth = 64;
+        public static final int defaultArcherHeight = 64;
+        public static final int archerWidth = (int)(defaultArcherWidth*Game.scale);
+        public static final int archerHeight = (int)(defaultArcherHeight*Game.scale);
+
+        public static int getSpriteAmount(int objType){
+            switch(objType){
+                case archer_left, archer_right:
+                    return 7;
+            }
+            return 1;
+        }
     }
 
     public static class enemyConstants{

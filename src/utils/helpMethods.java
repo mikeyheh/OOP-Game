@@ -1,6 +1,7 @@
 package utils;
 
 import Main.Game;
+import Objects.Archer;
 import Objects.Spikes;
 import entities.Slime;
 
@@ -118,6 +119,20 @@ public class helpMethods {
                 int val = color.getBlue();
                 if(val == Spike) {
                     list.add(new Spikes(i * Game.tileSize, j* Game.tileSize,Spike));
+                }
+            }
+        }
+        return list;
+    }
+    public static ArrayList<Archer> GetArchers(BufferedImage img){
+        ArrayList<Archer> list = new ArrayList<>();
+
+        for(int j = 0; j < img.getHeight(); j++){
+            for(int i = 0; i <img.getWidth();i++){
+                Color color = new Color(img.getRGB(i,j));
+                int val = color.getBlue();
+                if(val == archer_left || val == archer_right) {
+                    list.add(new Archer(i * Game.tileSize, j* Game.tileSize,val));
                 }
             }
         }

@@ -97,7 +97,7 @@ public class Player extends Entity{
                 }
             }
         }
-        if(left && right){
+        if(left && right && !inAir){
             playerAction = noWeaponIdle;
         }
 

@@ -48,6 +48,7 @@ public class Playing extends State implements Statemethods {
         gameOver = false;
         player.resetAll();
         enemyManager.resetEnemies();
+        objectManager.resetAllObjects();
     }
     public void checkSpikesTouched(Player player) {
         objectManager.checkSpikesTouched(player);
@@ -61,6 +62,7 @@ public class Playing extends State implements Statemethods {
     public void update() {
         if(!gameOver){
             levelManager.update();
+            objectManager.update();
             player.update();
             enemyManager.update(levelManager.getCurrentLevel().getLevelData(),player);
         }
