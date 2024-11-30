@@ -74,5 +74,8 @@ public class GameObject {
         return hitbox;
     }
 
+    public int getAnimTick() {
+        return animTick;
+    }
 
 }

@@ -62,7 +62,7 @@ public class Playing extends State implements Statemethods {
     public void update() {
         if(!gameOver){
             levelManager.update();
-            objectManager.update();
+            objectManager.update(levelManager.getCurrentLevel().getLevelData(),player);
             player.update();
             enemyManager.update(levelManager.getCurrentLevel().getLevelData(),player);
         }
@@ -152,6 +152,9 @@ public class Playing extends State implements Statemethods {
         return objectManager;
     }
 
+    public levelManager getLevelManager() {
+        return levelManager;
+    }
 
 }
 

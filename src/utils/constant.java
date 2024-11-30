@@ -4,10 +4,17 @@ import Main.Game;
 
 public class constant {
 
+    public static class Projectiles{
+        public static final int arrowDefaultWidth = 40;
+        public static final int arrowDefaultHeight = 5;
+        public static final int arrowWidth = (int)(arrowDefaultWidth * Game.scale);
+        public static final int arrowHeight = (int)(arrowDefaultHeight * Game.scale);
+        public static final float speed = 0.5f * Game.scale;
+    }
     public static class ObjectConstants{
         public static final int Spike = 4;
-        public static final int archer_left = 5;
-        public static final int archer_right = 6;
+        public static final int archer_left = 6;
+        public static final int archer_right = 5;
 
         public static final int defaultSpikeWidth = 32;
         public static final int defaultSpikeHeight = 32;

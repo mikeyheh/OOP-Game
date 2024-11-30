@@ -4,21 +4,23 @@ import GameStates.Playing;
 import Levels.level;
 import entities.Player;
 import utils.loadSave;
-
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import static Objects.GameObject.*;
+import Main.Game;
 
 import static utils.constant.ObjectConstants.*;
+import static utils.constant.Projectiles.*;
+import static utils.helpMethods.projectileHitGround;
 
 public class ObjectManager {
     private Playing playing;
     private BufferedImage[][] archerImgs; //For animations of objects
-    private BufferedImage spikeImg;
+    private BufferedImage spikeImg, arrowImg;
     private ArrayList<Spikes> spikes;
     private ArrayList<Archer> archers;
+    private ArrayList<Projectile> projectiles = new ArrayList<>();
+    private int dir;
 
     public ObjectManager(Playing playing){
         this.playing = playing;
@@ -40,6 +42,7 @@ public class ObjectManager {
     public void loadObjects(level newLevel){
         spikes = newLevel.getSpikes();
         archers = newLevel.getArchers();
+        projectiles.clear();
     }
 
     private void loadImgs(){
@@ -52,20 +55,61 @@ public class ObjectManager {
                 archerImgs[j][i] = temp.getSubimage(i*64, j*64, 64 ,64);
             }
         }
+        arrowImg = loadSave.getSpriteAtlas(loadSave.Arrow);
     }
 
-    public void update(){
+    public void update(int[][] lvldata, Player player){
         for(Archer a : archers){
             a.update();
+            if(a.getAnimIndex() == 6 && a.getAnimTick() == 0){
+                dir = -1;
+                if(a.getObjType() == archer_left){
+                    dir = 1;
+                }
+                projectiles.add(new Projectile((int)a.getHitbox().x, (int)a.getHitbox().y,dir));
+            }
         }
+        updateProjectiles(lvldata,player);
     }
 
-
+    private void updateProjectiles(int[][] lvldata, Player player) {
+        for(Projectile p : projectiles){
+            if(p.isActive()){
+                p.updatePos();
+                if(p.getHitbox().intersects(player.getHitbox())){
+                    player.kill();
+                    p.setActive(false);
+                }else if(projectileHitGround(p,lvldata)){
+                    p.setActive(false);
+                }
+            }
+        }
+    }
 
 
     public void draw(Graphics g){
         drawTraps(g);
         drawArchers(g);
+        drawProjectiles(g);
+    }
+
+    private void drawProjectiles(Graphics g) {
+        for(Projectile p : projectiles) {
+            if(p.isActive()) {
+                int width = arrowWidth;
+                int xPos = (int)p.getHitbox().x;
+
+                if(p.getDir() < 0) {
+                    width = -arrowWidth;
+                    xPos += arrowWidth;
+                }
+
+                g.drawImage(arrowImg, xPos, (int)p.getHitbox().y, width, arrowHeight, null);
+                //Debugging of Hitbox
+//                g.setColor(Color.RED);
+//                g.drawRect((int)p.getHitbox().x, (int)p.getHitbox().y, (int)p.getHitbox().width, (int)p.getHitbox().height);
+            }
+        }
     }
 
     private void drawArchers(Graphics g) {
@@ -87,6 +131,7 @@ public class ObjectManager {
     }
 
     public void resetAllObjects(){
+        loadObjects(playing.getLevelManager().getCurrentLevel());
         for(Archer a : archers){
             a.reset();
         }

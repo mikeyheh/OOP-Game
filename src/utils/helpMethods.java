@@ -2,6 +2,7 @@ package utils;
 
 import Main.Game;
 import Objects.Archer;
+import Objects.Projectile;
 import Objects.Spikes;
 import entities.Slime;
 
@@ -95,6 +96,10 @@ public class helpMethods {
             }
         }
         return lvl;
+    }
+
+    public static boolean projectileHitGround(Projectile p, int[][] lvlData){
+        return isSolid(p.getHitbox().x + p.getHitbox().width/2,p.getHitbox().y + p.getHitbox().height/2,lvlData);
     }
     public static ArrayList<Slime> GetSlimes(BufferedImage img){
         ArrayList<Slime> list = new ArrayList<>();
