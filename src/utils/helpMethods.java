@@ -42,7 +42,7 @@ public class helpMethods {
 
         int val = lvl[(int)yIndex][(int)xIndex];
 
-        if(val >= 48 || val < 0 || val != 11){
+        if(val >= 108 || val < 0 || val != 11){
             return true;
         }
         return false;
@@ -93,7 +93,7 @@ public class helpMethods {
                 Color color = new Color(img.getRGB(i,j));
                 int val = color.getRed();
                 if(val >= 108){
-                    val = 72;
+                    val = 11;
                 }
                 lvl[j][i] = val;
             }

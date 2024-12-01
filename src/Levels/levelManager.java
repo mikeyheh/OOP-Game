@@ -37,18 +37,18 @@ public class levelManager {
         level = new BufferedImage[108];
         int currIndex = 0;
 
-        // Atlas2
-        for(int j = 0; j < 6; j++){
-            for (int i = 0; i < 10; i++){
-                level[currIndex] = img2.getSubimage(i*32, j*32, 32, 32);
-                currIndex++;
-            }
-        }
-
         // Atlas1
         for(int j = 0; j < 4; j++){
             for (int i = 0; i < 12; i++){
                 level[currIndex] = img.getSubimage(i*32, j*32, 32, 32);
+                currIndex++;
+            }
+        }
+
+        // Atlas2
+        for(int j = 0; j < 6; j++){
+            for (int i = 0; i < 10; i++){
+                level[currIndex] = img2.getSubimage(i*32, j*32, 32, 32);
                 currIndex++;
             }
         }
