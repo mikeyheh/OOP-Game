@@ -75,7 +75,10 @@ public class Playing extends State implements Statemethods {
             objectManager.update(levelManager.getCurrentLevel().getLevelData(),player);
             player.update();
             enemyManager.update(levelManager.getCurrentLevel().getLevelData(),player);
+        }else{
+            gameoveroverlay.update();
         }
+
     }
 
     public void draw(Graphics g){
@@ -95,17 +98,23 @@ public class Playing extends State implements Statemethods {
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        if(gameOver){
+            gameoveroverlay.mousePressed(e);
+        }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        if(gameOver){
+            gameoveroverlay.mouseReleased(e);
+        }
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-
+        if(gameOver){
+            gameoveroverlay.mouseMoved(e);
+        }
     }
 
     @Override

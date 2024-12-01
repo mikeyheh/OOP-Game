@@ -2,6 +2,7 @@ package Main;
 
 import Inputs.KeyboardInputs;
 import Inputs.MouseInputs;
+import UI.GameOverOverlay;
 
 import javax.swing.*;
 import java.awt.*;

@@ -4,6 +4,7 @@ package Main;
 import GameStates.Gamestate;
 import GameStates.Menu;
 import GameStates.Playing;
+import UI.GameOverOverlay;
 import entities.EnemyManager;
 import entities.Player;
 import Levels.levelManager;
