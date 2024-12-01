@@ -28,7 +28,9 @@ public class helpMethods {
         return false;
     }
     private static boolean isSolid(float x, float y, int[][] lvl){
-        if(x < 0 || x >= Game.gameWidth){
+        int maxWidth = lvl[0].length * Game.tileSize;
+
+        if(x < 0 || x >= maxWidth){
             return true;
         }
         if(y < 0 || y >= Game.gameHeight){
@@ -90,8 +92,8 @@ public class helpMethods {
             for(int i = 0; i <img.getWidth();i++){
                 Color color = new Color(img.getRGB(i,j));
                 int val = color.getRed();
-                if(val >= 48){
-                    val = 0;
+                if(val >= 108){
+                    val = 72;
                 }
                 lvl[j][i] = val;
             }

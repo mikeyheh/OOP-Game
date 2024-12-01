@@ -31,13 +31,28 @@ public class levelManager {
 
     private void importOutsideSprite() {
         BufferedImage img = loadSave.getSpriteAtlas(loadSave.levelAtlas);
-        level = new BufferedImage[48];
-        for(int j = 0; j < 4; j++){
-            for (int i = 0; i < 12; i++){
-                int index = j*12 + i;
-                level[index] = img.getSubimage(i*32, j*32, 32, 32);
+        BufferedImage img2 = loadSave.getSpriteAtlas(loadSave.levelAtlas2);
+
+        // 48 levelAtlas, 60, levelAtlas2
+        level = new BufferedImage[108];
+        int currIndex = 0;
+
+        // Atlas2
+        for(int j = 0; j < 6; j++){
+            for (int i = 0; i < 10; i++){
+                level[currIndex] = img2.getSubimage(i*32, j*32, 32, 32);
+                currIndex++;
             }
         }
+
+        // Atlas1
+        for(int j = 0; j < 4; j++){
+            for (int i = 0; i < 12; i++){
+                level[currIndex] = img.getSubimage(i*32, j*32, 32, 32);
+                currIndex++;
+            }
+        }
+
     }
 
     public void draw(Graphics g){

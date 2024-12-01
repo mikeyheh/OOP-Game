@@ -32,8 +32,8 @@ public class GameObject {
         g.drawRect((int)hitbox.x, (int)hitbox.y, (int)hitbox.width, (int)hitbox.height);
     }
 
-    protected void updateAnimTick(){
-        animTick++;
+    protected void updateAnimTick(float multiplier){
+        animTick = (int)(animTick + 1 + multiplier);
         if(animTick >= animSpeed){
             animTick = 0;
             animIndex++;

@@ -82,7 +82,7 @@ public class ObjectManager {
     public void update(int[][] lvldata, Player player){
         for(Archer a : archers){
             a.update();
-            if(a.getAnimIndex() == 6 && a.getAnimTick() == 0){
+            if(a.getAnimIndex() == 0 && a.getAnimTick() == 0){
                 dir = -1;
                 if(a.getObjType() == archer_left){
                     dir = 1;

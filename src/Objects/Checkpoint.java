@@ -14,7 +14,7 @@ public class Checkpoint extends GameObject {
     }
 
     public void update() {
-        updateAnimTick();
+        updateAnimTick(1);
     }
 
     public void triggerEffect() {

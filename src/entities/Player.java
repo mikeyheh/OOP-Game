@@ -272,6 +272,9 @@ public class Player extends Entity{
 
         hitbox.x = x;
         hitbox.y = y;
+
+        saveSpawnX = x;
+        saveSpawnY = y;
         if(!grounded(hitbox,lvl)){
             inAir = true;
         }

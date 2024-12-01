@@ -11,7 +11,10 @@ public class loadSave {
     public static final String menuBackground2 = "menu_backgroundImg.png";
 
     public static final String playerAtlas ="final_anims.png";
+
     public static final String levelAtlas ="outside_sprites.png";
+    public static final String levelAtlas2 = "snow_sprite.png";
+
     //public static final String mapAtlas ="level_one_data.png";
     public static final String mapAtlas ="level_one_data_long.png";
     public static final String Slimes = "slime-spritesheet.png";

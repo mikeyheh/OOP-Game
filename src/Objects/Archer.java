@@ -3,6 +3,8 @@ package Objects;
 import Main.Game;
 
 public class Archer extends GameObject {
+    private float speedMult = (float)1;
+
     public Archer(int x, int y, int objType) {
         super(x, y, objType);
         initHitbox(64,64);
@@ -10,7 +12,11 @@ public class Archer extends GameObject {
         hitbox.y -=(int)(16*Game.scale);
     }
 
+    public void increaseSpeed(){
+        this.speedMult += (float)0.01;
+    }
+
     public void update(){
-            updateAnimTick();
+            updateAnimTick(speedMult);
     }
 }
