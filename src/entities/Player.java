@@ -27,11 +27,15 @@ public class Player extends Entity{
     private boolean inAir = false;
     private boolean facingRight = true;
 
+
+    private float saveSpawnX, saveSpawnY;
     private int maxHealth = 1;
     private int currentHealth = 1;
     private Playing playing;
     public Player(float x, float y, int width, int height, Playing playing) {
         super(x, y, width,height);
+        this.saveSpawnX = x;
+        this.saveSpawnY = y;
         this.playing = playing;
         loadAnimations();
         initHitbox(x,y, 20, 28);
@@ -271,6 +275,25 @@ public class Player extends Entity{
         if(!grounded(hitbox,lvl)){
             inAir = true;
         }
+    }
+
+    public void returnCheckpoint() {
+        resetDir();
+        inAir = false;
+        moving = false;
+        playerAction = noWeaponIdle;
+        currentHealth = maxHealth;
+
+        hitbox.x = saveSpawnX;
+        hitbox.y = saveSpawnY;
+        if(!grounded(hitbox,lvl)){
+            inAir = true;
+        }
+    }
+
+    public void saveCheckpoint() {
+        saveSpawnY = hitbox.y;
+        saveSpawnX = hitbox.x;
     }
 }
 

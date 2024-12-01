@@ -39,7 +39,7 @@ public class Playing extends State implements Statemethods {
         levelManager = new levelManager(game);
         enemyManager = new EnemyManager(game);
         objectManager = new ObjectManager(this);
-        player = new Player(200,200,(int) (50*Game.scale), (int) (37*Game.scale),this);
+        player = new Player(100 * Game.scale,100 * Game.scale,(int) (50*Game.scale), (int) (37*Game.scale),this);
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
         gameoveroverlay = new GameOverOverlay(this);
     }
@@ -50,6 +50,15 @@ public class Playing extends State implements Statemethods {
         enemyManager.resetEnemies();
         objectManager.resetAllObjects();
     }
+
+    public void returnCheckpoint() {
+        gameOver = false;
+        player.returnCheckpoint();
+        enemyManager.resetEnemies();
+        objectManager.resetAllObjects();
+    }
+
+
     public void checkSpikesTouched(Player player) {
         objectManager.checkSpikesTouched(player);
     }
@@ -70,13 +79,13 @@ public class Playing extends State implements Statemethods {
     }
 
     public void draw(Graphics g){
-        if(gameOver){
-            gameoveroverlay.draw(g);
-        }
         levelManager.draw(g);
         player.render(g);
         enemyManager.draw(g);
         objectManager.draw(g);
+        if(gameOver){
+            gameoveroverlay.draw(g);
+        }
     }
 
     @Override

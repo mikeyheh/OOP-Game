@@ -2,7 +2,10 @@ package Objects;
 
 import Main.Game;
 
+import java.awt.*;
+
 public class Checkpoint extends GameObject {
+
     public Checkpoint(int x, int y, int objType) {
         super(x, y, objType);
         initHitbox(32,32);
@@ -12,5 +15,9 @@ public class Checkpoint extends GameObject {
 
     public void update() {
         updateAnimTick();
+    }
+
+    public void triggerEffect() {
+
     }
 }

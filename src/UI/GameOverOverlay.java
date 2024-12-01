@@ -27,6 +27,9 @@ public class GameOverOverlay {
         if(e.getKeyCode()==KeyEvent.VK_ESCAPE){
             playing.resetAll();
             Gamestate.state = Gamestate.Menu;
+        } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            playing.returnCheckpoint();
+            Gamestate.state = Gamestate.Playing;
         }
     }
 }

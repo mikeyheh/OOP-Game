@@ -9,6 +9,7 @@ import entities.Player;
 import Levels.levelManager;
 
 
+import javax.tools.Tool;
 import java.awt.*;
 
 public class Game implements Runnable{
@@ -21,10 +22,13 @@ public class Game implements Runnable{
     private Playing playing;
     private Menu menu;
 
+    public final static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     public final static int tileDefaultSize = 32;
-    public final static float scale = 2f;
     public final static int tileWidth = 26;
     public final static int tileHeight = 14;
+    public final static float scaleX = (float) screenSize.height / (tileDefaultSize * tileHeight);
+    public final static float scaleY = (float) screenSize.width / (tileDefaultSize * tileWidth);
+    public final static float scale = Math.min(scaleX, scaleY) ;// was 3f
     public final static int tileSize = (int) (tileDefaultSize * scale);
     public final static int gameWidth = tileSize * tileWidth;
     public final static int gameHeight = tileSize * tileHeight;
@@ -58,7 +62,9 @@ public class Game implements Runnable{
             case Playing:
                 playing.update();
                 break;
+            case Quit:
             default:
+                System.exit(0);
                 break;
         }
     }

@@ -1,20 +1,15 @@
 package utils;
 
-import Main.Game;
-import entities.Slime;
-
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.ArrayList;
-import static utils.constant.enemyConstants.Slime;
 
 public class loadSave {
+    public static final String menuButtons = "menu_buttons.png";
+    public static final String menuBackground = "menu_background.png";
+    public static final String menuBackground2 = "menu_backgroundImg.png";
+
     public static final String playerAtlas ="final_anims.png";
     public static final String levelAtlas ="outside_sprites.png";
     //public static final String mapAtlas ="level_one_data.png";

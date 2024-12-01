@@ -3,6 +3,14 @@ package utils;
 import Main.Game;
 
 public class constant {
+    public static class UI {
+        public static class Buttons {
+            public static final int buttonDefaultWidth = 64;
+            public static final int buttonDefaultHeight = 16;
+            public static final int buttonWidth = (int) (buttonDefaultWidth * Game.scale * 2.5);
+            public static final int buttonHeight = (int) (buttonDefaultHeight * Game.scale * 2.5);
+        }
+    }
 
     public static class Projectiles{
         public static final int arrowDefaultWidth = 40;

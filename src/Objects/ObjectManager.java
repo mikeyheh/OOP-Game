@@ -34,7 +34,7 @@ public class ObjectManager {
     public void checkCheckpointTouched(Player player) {
         for(Checkpoint s : checkpoints){
             if(s.getHitbox().intersects(player.getHitbox())){
-                player.kill();
+                player.saveCheckpoint();
             }
         }
     }
