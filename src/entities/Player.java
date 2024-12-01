@@ -43,11 +43,15 @@ public class Player extends Entity{
             return;
         }
         checkSpikesTouched();
+        checkCheckpointTouched();
         updatePosition();
         updateAnimationTick();
         setAnimation();
     }
 
+    private void checkCheckpointTouched() {
+        playing.checkCheckpointTouched(this);
+    }
     private void checkSpikesTouched() {
         playing.checkSpikesTouched(this);
     }

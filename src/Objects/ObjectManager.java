@@ -9,6 +9,8 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import Main.Game;
 
+import javax.swing.*;
+
 import static utils.constant.ObjectConstants.*;
 import static utils.constant.Projectiles.*;
 import static utils.helpMethods.projectileHitGround;
@@ -16,16 +18,27 @@ import static utils.helpMethods.projectileHitGround;
 public class ObjectManager {
     private Playing playing;
     private BufferedImage[][] archerImgs; //For animations of objects
+    private BufferedImage[] checkpointImgs;
     private BufferedImage spikeImg, arrowImg;
     private ArrayList<Spikes> spikes;
     private ArrayList<Archer> archers;
     private ArrayList<Projectile> projectiles = new ArrayList<>();
+    private ArrayList<Checkpoint> checkpoints;
     private int dir;
 
     public ObjectManager(Playing playing){
         this.playing = playing;
         loadImgs();
     }
+
+    public void checkCheckpointTouched(Player player) {
+        for(Checkpoint s : checkpoints){
+            if(s.getHitbox().intersects(player.getHitbox())){
+                player.kill();
+            }
+        }
+    }
+
     public void checkSpikesTouched(Player player){
         for(Spikes s: spikes){
             if(s.getHitbox().intersects(player.getHitbox())){
@@ -42,6 +55,7 @@ public class ObjectManager {
     public void loadObjects(level newLevel){
         spikes = newLevel.getSpikes();
         archers = newLevel.getArchers();
+        checkpoints = newLevel.getCheckpoints();
         projectiles.clear();
     }
 
@@ -56,6 +70,13 @@ public class ObjectManager {
             }
         }
         arrowImg = loadSave.getSpriteAtlas(loadSave.Arrow);
+
+        checkpointImgs = new BufferedImage[7];
+        BufferedImage tempCheckpoint = loadSave.getSpriteAtlas(loadSave.Checkpoint);
+        for(int i = 0; i < checkpointImgs.length; i++){
+            checkpointImgs[i] = tempCheckpoint.getSubimage(i*defaultCheckpointWidth, 0,defaultCheckpointWidth, defaultCheckpointHeight);
+        }
+
     }
 
     public void update(int[][] lvldata, Player player){
@@ -68,6 +89,10 @@ public class ObjectManager {
                 }
                 projectiles.add(new Projectile((int)a.getHitbox().x, (int)a.getHitbox().y,dir));
             }
+        }
+
+        for(Checkpoint a : checkpoints){
+            a.update();
         }
         updateProjectiles(lvldata,player);
     }
@@ -90,6 +115,7 @@ public class ObjectManager {
     public void draw(Graphics g){
         drawTraps(g);
         drawArchers(g);
+        drawCheckpoints(g);
         drawProjectiles(g);
     }
 
@@ -121,12 +147,23 @@ public class ObjectManager {
                 width *= -1;
             }
             g.drawImage(archerImgs[3][a.getAnimIndex()],x,(int)(a.getHitbox().y),width,archerHeight,null);
+//            g.setColor(Color.RED);
+//            g.drawRect((int)a.getHitbox().x, (int)a.getHitbox().y, (int)a.getHitbox().width, (int)a.getHitbox().height);
         }
     }
 
     private void drawTraps(Graphics g) {
         for(Spikes s: spikes){
             g.drawImage(spikeImg, (int)(s.getHitbox().x- s.getxOffset()) ,(int)(s.getHitbox().y - s.getyOffset()),spikeWidth,spikeHeight,null);
+        }
+    }
+
+    private void drawCheckpoints(Graphics g) {
+        for(Checkpoint a: checkpoints){
+            int x = (int)(a.getHitbox().x);
+            g.drawImage(checkpointImgs[a.getAnimIndex()],x,(int)(a.getHitbox().y),checkpointWidth/2,checkpointHeight/2,null);
+            g.setColor(Color.RED);
+            g.drawRect((int)a.getHitbox().x, (int)a.getHitbox().y, (int)a.getHitbox().width, (int)a.getHitbox().height);
         }
     }
 

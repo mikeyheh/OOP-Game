@@ -1,10 +1,12 @@
 package Levels;
 
 import Objects.Archer;
+import Objects.Checkpoint;
 import Objects.Spikes;
 import entities.Slime;
 
 import java.awt.image.BufferedImage;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import utils.helpMethods;
 import static utils.helpMethods.GetLevelData;
@@ -16,13 +18,17 @@ public class level {
     private ArrayList< Slime> slimes;
     private ArrayList<Spikes> spikes;
     private ArrayList<Archer> archers;
+    private ArrayList<Checkpoint> checkpoints;
     public level(BufferedImage img){
         this.img = img;
         createLevelData();
         createEnemies();
         createSpikes();
         createArchers();
+        createCheckpoints();
     }
+
+    private void createCheckpoints(){ checkpoints = helpMethods.GetCheckpoints(img); }
 
     private void createArchers() {
         archers = helpMethods.GetArchers(img);
@@ -58,4 +64,5 @@ public class level {
     public ArrayList<Archer> getArchers() {
         return archers;
     }
+    public ArrayList<Checkpoint> getCheckpoints() { return checkpoints; }
 }

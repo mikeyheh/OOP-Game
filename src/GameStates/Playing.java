@@ -53,6 +53,7 @@ public class Playing extends State implements Statemethods {
     public void checkSpikesTouched(Player player) {
         objectManager.checkSpikesTouched(player);
     }
+    public void checkCheckpointTouched(Player player) { objectManager.checkCheckpointTouched(player); }
 
     public void setGameOver(boolean gameOver){
         this.gameOver = gameOver;
@@ -155,7 +156,6 @@ public class Playing extends State implements Statemethods {
     public levelManager getLevelManager() {
         return levelManager;
     }
-
 }
 
 

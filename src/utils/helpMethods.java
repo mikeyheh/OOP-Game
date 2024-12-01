@@ -2,6 +2,7 @@ package utils;
 
 import Main.Game;
 import Objects.Archer;
+import Objects.Checkpoint;
 import Objects.Projectile;
 import Objects.Spikes;
 import entities.Slime;
@@ -138,6 +139,21 @@ public class helpMethods {
                 int val = color.getBlue();
                 if(val == archer_left || val == archer_right) {
                     list.add(new Archer(i * Game.tileSize, j* Game.tileSize,val));
+                }
+            }
+        }
+        return list;
+    }
+
+    public static ArrayList<Checkpoint> GetCheckpoints(BufferedImage img) {
+        ArrayList<Checkpoint> list = new ArrayList<>();
+
+        for(int j = 0; j < img.getHeight(); j++){
+            for(int i = 0; i <img.getWidth();i++){
+                Color color = new Color(img.getRGB(i,j));
+                int val = color.getBlue();
+                if(val == Checkpoint) {
+                    list.add(new Checkpoint(i * Game.tileSize, j* Game.tileSize, Checkpoint));
                 }
             }
         }

@@ -15,6 +15,7 @@ public class constant {
         public static final int Spike = 4;
         public static final int archer_left = 6;
         public static final int archer_right = 5;
+        public static final int Checkpoint = 8;
 
         public static final int defaultSpikeWidth = 32;
         public static final int defaultSpikeHeight = 32;
@@ -26,9 +27,16 @@ public class constant {
         public static final int archerWidth = (int)(defaultArcherWidth*Game.scale);
         public static final int archerHeight = (int)(defaultArcherHeight*Game.scale);
 
+        public static final int defaultCheckpointWidth = 64;
+        public static final int defaultCheckpointHeight = 64;
+        public static final int checkpointWidth = (int)(defaultCheckpointWidth*Game.scale);
+        public static final int checkpointHeight = (int)(defaultCheckpointHeight*Game.scale);
+
         public static int getSpriteAmount(int objType){
             switch(objType){
                 case archer_left, archer_right:
+                    return 7;
+                case Checkpoint:
                     return 7;
             }
             return 1;

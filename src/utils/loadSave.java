@@ -23,6 +23,7 @@ public class loadSave {
     public static final String Trap = "trap_atlas.png";
     public static final String Archer = "archer.png";
     public static final String Arrow = "projectile.png";
+    public static final String Checkpoint = "checkpoint.png";
     public static BufferedImage getSpriteAtlas(String file){
         BufferedImage img = null;
         InputStream is = loadSave.class.getResourceAsStream("/" + file);
