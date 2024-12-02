@@ -27,9 +27,9 @@ public class Game implements Runnable{
     public final static int tileDefaultSize = 32;
     public final static int tileWidth = 26;
     public final static int tileHeight = 14;
-    public final static float scaleX = (float) screenSize.height / (tileDefaultSize * tileHeight);
-    public final static float scaleY = (float) screenSize.width / (tileDefaultSize * tileWidth);
-    public final static float scale = Math.min(scaleX, scaleY) ;// was 3f
+    public final static float scaleX = (float) (screenSize.height - tileDefaultSize*2) / (tileDefaultSize * tileHeight);
+    public final static float scaleY = (float) (screenSize.width - tileDefaultSize*2) / (tileDefaultSize * tileWidth);
+    public final static float scale = Math.min(scaleX, scaleY);// was 3f
     public final static int tileSize = (int) (tileDefaultSize * scale);
     public final static int gameWidth = tileSize * tileWidth;
     public final static int gameHeight = tileSize * tileHeight;
