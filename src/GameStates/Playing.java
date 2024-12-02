@@ -3,10 +3,10 @@ package GameStates;
 import Levels.levelManager;
 import Main.Game;
 import Objects.ObjectManager;
+import UI.Camera;
 import UI.GameOverOverlay;
 import entities.EnemyManager;
 import entities.Player;
-import Objects.ObjectManager;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -19,26 +19,33 @@ public class Playing extends State implements Statemethods {
     private ObjectManager objectManager;
     private boolean gameOver;
     private GameOverOverlay gameoveroverlay;
+    private Camera camera;
+
+    private int yLvlOffset;
+    private int maxTilesOffset;
+    private int maxLvlOffsetY;
 
     public Playing(Game game) {
         super(game);
         initClasses();
-        loadStartLevel();
-    }
-    public void loadNextLevel(){
-        resetAll();
-        levelManager.loadNextLevel();
+        loadAllLevels();
     }
 
-    private void loadStartLevel() {
-        enemyManager.loadEnemies(levelManager.getCurrentLevel());
+    private void loadAllLevels() {
+        enemyManager.loadEnemies(levelManager.getLevels());
         objectManager.loadObjects(levelManager.getCurrentLevel());
     }
 
     private void initClasses(){
         levelManager = new levelManager(game);
+        maxTilesOffset = Game.tileHeight - (getLevelManager().numberofLevels() * Game.tileHeight);
+        maxLvlOffsetY = maxTilesOffset * Game.tileSize;
         enemyManager = new EnemyManager(game);
         objectManager = new ObjectManager(this);
+
+        int levelHeight = Game.tileHeight * Game.tileDefaultSize; // Height of one level in pixels
+        camera = new Camera(Game.tileSize * Game.tileWidth, Game.tileSize * Game.tileHeight, levelHeight);
+
         player = new Player(100 * Game.scale,100 * Game.scale,(int) (50*Game.scale), (int) (37*Game.scale),this);
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
         gameoveroverlay = new GameOverOverlay(this);
@@ -73,17 +80,23 @@ public class Playing extends State implements Statemethods {
         if(!gameOver){
             levelManager.update();
             objectManager.update(levelManager.getCurrentLevel().getLevelData(),player);
-
-            player.update();
             enemyManager.update(levelManager.getCurrentLevel().getLevelData(),player);
+            player.update();
+            camera.checkPlayerPos(player);
+
         }else{
             gameoveroverlay.update();
         }
 
     }
 
+    private void checkPlayerPos() {
+        int playerY = (int)player.getHitbox().y;
+
+    }
+
     public void draw(Graphics g){
-        levelManager.draw(g);
+        levelManager.draw(g, camera);
         player.render(g);
         enemyManager.draw(g);
         objectManager.draw(g);

@@ -19,8 +19,10 @@ public class EnemyManager {
         loadEnemy();
     }
 
-    public void loadEnemies(level level) {
-        slimes =level.getSlimes() ;
+    public void loadEnemies(ArrayList<level> levels) {
+        for(level a: levels){
+            slimes = a.getSlimes() ;
+        }
     }
 
 

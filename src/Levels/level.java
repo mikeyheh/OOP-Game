@@ -31,7 +31,7 @@ public class level {
     private void createCheckpoints(){ checkpoints = helpMethods.GetCheckpoints(img); }
 
     private void createArchers() {
-        archers = helpMethods.GetArchers(img);
+
     }
 
     private void createSpikes() {
@@ -40,6 +40,7 @@ public class level {
 
     private void createEnemies() {
         slimes = GetSlimes(img);
+        archers = helpMethods.GetArchers(img);
     }
 
     private void createLevelData() {

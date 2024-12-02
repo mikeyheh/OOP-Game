@@ -298,6 +298,10 @@ public class Player extends Entity{
         saveSpawnY = hitbox.y;
         saveSpawnX = hitbox.x;
     }
+
+    public int getY() {
+        return (int)hitbox.y;
+    }
 }
 
 

@@ -29,18 +29,19 @@ public class helpMethods {
     }
     private static boolean isSolid(float x, float y, int[][] lvl){
         int maxWidth = lvl[0].length * Game.tileSize;
+        int maxHeight; // integrate level size
 
         if(x < 0 || x >= maxWidth){
             return true;
         }
-        if(y < 0 || y >= Game.gameHeight){
+        if(y >= Game.gameHeight){
             return true;
         }
 
         float xIndex = x/Game.tileSize;
         float yIndex = y/Game.tileSize;
 
-        int val = lvl[(int)yIndex][(int)xIndex];
+        int val = ((int)yIndex < 0) ? 11 : lvl[(int)yIndex][(int)xIndex]; // to be decided
 
         if(val >= 108 || val < 0 || val != 11){
             return true;

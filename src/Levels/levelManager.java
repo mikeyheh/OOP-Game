@@ -1,8 +1,7 @@
 package Levels;
 
-import GameStates.Gamestate;
 import Main.Game;
-import entities.EnemyManager;
+import UI.Camera;
 import utils.loadSave;
 
 import java.awt.*;
@@ -55,16 +54,31 @@ public class levelManager {
 
     }
 
-    public void draw(Graphics g){
-        for(int j = 0; j < Game.tileHeight; j++) {
-            for (int i = 0; i < levels.get(lvlindex).getLevelData()[0].length; i++) {
-                int index = levels.get(lvlindex).getSpriteIndex(i, j);
-                g.drawImage(level[index], Game.tileSize * i, Game.tileSize * j, Game.tileSize, Game.tileSize, null);
+    public void draw(Graphics g, Camera camera) {
+        int yOffset = -camera.getCameraY(); // Offset the level rendering based on the camera position
+
+        for (level currentLevel : levels) {
+            for (int j = 0; j < Game.tileHeight; j++) {
+                for (int i = 0; i < Game.tileWidth; i++) {
+                    int tileSet = currentLevel.getSpriteIndex(i, j);
+                    g.drawImage(level[tileSet],
+                            Game.tileSize * i,              // X position
+                            Game.tileSize * j + yOffset,    // Y position with camera offset
+                            Game.tileSize,
+                            Game.tileSize,
+                            null);
+                }
             }
         }
     }
+
+
     public void update(){
 
+    }
+
+    public ArrayList<Levels.level> getLevels(){
+        return levels;
     }
 
     public level getCurrentLevel(){
@@ -73,16 +87,6 @@ public class levelManager {
 
     public int numberofLevels(){
         return levels.size();
-    }
-    public void loadNextLevel(){
-        lvlindex++;
-        if(lvlindex >= levels.size()){
-            lvlindex = 0;
-            Gamestate.state = Gamestate.Menu;
-        }
-        level newLevel = levels.get(lvlindex);
-        game.getPlaying().getEnemyManager().loadEnemies(newLevel);
-        game.getPlaying().getPlayer().loadLvlData(newLevel.getLevelData());
     }
 
 }

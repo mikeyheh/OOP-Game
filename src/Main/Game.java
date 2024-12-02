@@ -119,6 +119,7 @@ public class Game implements Runnable{
                 System.out.println("Fps: "+ frames + "| UPS: " + updates);
                 frames = 0;
                 updates = 0;
+                System.out.println(playing.getPlayer().getHitbox().x + "," + playing.getPlayer().getHitbox().y);
             }
         }
     }
