@@ -3,7 +3,6 @@ package GameStates;
 import Levels.levelManager;
 import Main.Game;
 import Objects.ObjectManager;
-import UI.Camera;
 import UI.GameOverOverlay;
 import entities.EnemyManager;
 import entities.Player;
@@ -19,7 +18,6 @@ public class Playing extends State implements Statemethods {
     private ObjectManager objectManager;
     private boolean gameOver;
     private GameOverOverlay gameoveroverlay;
-    private Camera camera;
 
     private int yLvlOffset;
     private int maxTilesOffset;
@@ -44,7 +42,6 @@ public class Playing extends State implements Statemethods {
         objectManager = new ObjectManager(this);
 
         int levelHeight = Game.tileHeight * Game.tileDefaultSize; // Height of one level in pixels
-        camera = new Camera(Game.tileSize * Game.tileWidth, Game.tileSize * Game.tileHeight, levelHeight);
 
         player = new Player(100 * Game.scale,100 * Game.scale,(int) (50*Game.scale), (int) (37*Game.scale),this);
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
@@ -82,7 +79,6 @@ public class Playing extends State implements Statemethods {
             objectManager.update(levelManager.getCurrentLevel().getLevelData(),player);
             enemyManager.update(levelManager.getCurrentLevel().getLevelData(),player);
             player.update();
-            camera.checkPlayerPos(player);
 
         }else{
             gameoveroverlay.update();
@@ -96,7 +92,7 @@ public class Playing extends State implements Statemethods {
     }
 
     public void draw(Graphics g){
-        levelManager.draw(g, camera);
+        levelManager.draw(g);
         player.render(g);
         enemyManager.draw(g);
         objectManager.draw(g);

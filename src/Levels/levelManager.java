@@ -1,7 +1,6 @@
 package Levels;
 
 import Main.Game;
-import UI.Camera;
 import utils.loadSave;
 
 import java.awt.*;
@@ -54,23 +53,28 @@ public class levelManager {
 
     }
 
-    public void draw(Graphics g, Camera camera) {
-        int yOffset = -camera.getCameraY(); // Offset the level rendering based on the camera position
+    public void draw(Graphics g) {
+        int levelHeight = Game.tileHeight * Game.tileDefaultSize; // Total height of a single level
 
-        for (level currentLevel : levels) {
-            for (int j = 0; j < Game.tileHeight; j++) {
-                for (int i = 0; i < Game.tileWidth; i++) {
-                    int tileSet = currentLevel.getSpriteIndex(i, j);
+        for (int lvlIndex = 0; lvlIndex < levels.size(); lvlIndex++) { // Draw from the bottom level (index 0)
+            level currentLevel = levels.get(lvlIndex); // Get the current level
+
+            int yOffset = (levels.size() - 1 - lvlIndex) * levelHeight; // Calculate offset for stacking from the bottom
+
+            for (int j = 0; j < Game.tileHeight; j++) { // Loop through rows
+                for (int i = 0; i < Game.tileWidth; i++) { // Loop through columns
+                    int tileSet = currentLevel.getSpriteIndex(i, j); // Get the sprite index for the tile
                     g.drawImage(level[tileSet],
-                            Game.tileSize * i,              // X position
-                            Game.tileSize * j + yOffset,    // Y position with camera offset
-                            Game.tileSize,
-                            Game.tileSize,
+                            Game.tileDefaultSize * i,              // X position
+                            Game.tileDefaultSize * j + yOffset,    // Y position with calculated offset
+                            Game.tileDefaultSize,                 // Tile width
+                            Game.tileDefaultSize,                 // Tile height
                             null);
                 }
             }
         }
     }
+
 
 
     public void update(){
