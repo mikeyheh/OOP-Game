@@ -1,14 +1,11 @@
 package UI;
 
 import GameStates.Gamestate;
-import GameStates.Menu;
-import Main.Game;
 import utils.loadSave;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import static GameStates.Gamestate.Playing;
 import static utils.constant.UI.Buttons.*;
 
 public class MenuButton {
