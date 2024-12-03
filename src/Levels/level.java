@@ -6,14 +6,13 @@ import Objects.Spikes;
 import entities.Slime;
 
 import java.awt.image.BufferedImage;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import utils.helpMethods;
 import static utils.helpMethods.GetLevelData;
 import static utils.helpMethods.GetSlimes;
 
 public class level {
-    private BufferedImage img;
+    private static BufferedImage img;
     private int[][] lvl;
     private ArrayList< Slime> slimes;
     private ArrayList<Spikes> spikes;
@@ -44,6 +43,10 @@ public class level {
 
     private void createLevelData() {
         lvl = GetLevelData(img);
+    }
+
+    static BufferedImage getImg(level level) {
+        return img;
     }
 
     public int getSpriteIndex(int x, int y){

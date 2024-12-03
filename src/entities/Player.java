@@ -4,6 +4,7 @@ import GameStates.Playing;
 import Main.Game;
 import utils.loadSave;
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import static utils.constant.playerConstants.*;
 import static utils.helpMethods.canMove;
@@ -18,8 +19,8 @@ public class Player extends Entity{
     private boolean left,up,right,down, jump;
     private float playerSpeed = 1.0f * Game.scale;
     private int[][] lvl;
-    private float xOffset = 15 * Game.scale;
-    private float yOffset = 7 * Game.scale;
+    private float xOffset;
+    private float yOffset;
     private float airSpeed = 0f;
     private float gravity = 0.04f * Game.scale;
     private float jumpSpeed = - 2.25f * Game.scale;
@@ -27,8 +28,8 @@ public class Player extends Entity{
     private boolean inAir = false;
     private boolean facingRight = true;
 
-
     private float saveSpawnX, saveSpawnY;
+    private int spawnLevel;
     private int maxHealth = 1;
     private int currentHealth = 1;
     private Playing playing;
@@ -36,9 +37,17 @@ public class Player extends Entity{
         super(x, y, width,height);
         this.saveSpawnX = x;
         this.saveSpawnY = y;
+        this.spawnLevel = 0;
         this.playing = playing;
         loadAnimations();
-        initHitbox(x,y, 20, 28);
+
+        float hitboxWidth = 10;
+        float hitboxHeight = 28;
+
+        xOffset = 15 * Game.scale;
+        yOffset = 2 * Game.scale;
+
+        initHitbox(x, y, hitboxWidth, hitboxHeight);
     }
 
     public void update(){
@@ -48,9 +57,18 @@ public class Player extends Entity{
         }
         checkSpikesTouched();
         checkCheckpointTouched();
+        checkReachedEdge();
         updatePosition();
         updateAnimationTick();
         setAnimation();
+    }
+
+    public int getSpawnLevel(){
+        return spawnLevel;
+    }
+
+    private void checkReachedEdge() {
+        playing.checkReachedEdge(this);
     }
 
     private void checkCheckpointTouched() {
@@ -61,8 +79,11 @@ public class Player extends Entity{
     }
 
     public void render(Graphics g){
-        g.drawImage(animations[playerAction][animIndex],(int)(hitbox.x - xOffset),(int)(hitbox.y - yOffset), width,height,null);
-        //drawHitbox(g);
+        float spriteX =  (hitbox.x + (hitbox.width / 2) - (width / 2));
+        float spriteY =  (hitbox.y + (hitbox.height / 2) - (height / 2));
+
+        g.drawImage(animations[playerAction][animIndex], (int)(spriteX), (int)(spriteY - yOffset), width, height, null);
+//        drawHitbox(g);
     }
 
     private void updateAnimationTick() {
@@ -165,6 +186,10 @@ public class Player extends Entity{
         moving = hasMoved ;
     }
 
+    public void setAirSpeed(){
+        airSpeed = fallSpeedAfterCollision;
+    }
+
     private void jump() {
         if(inAir){
             return;
@@ -263,6 +288,20 @@ public class Player extends Entity{
         this.jump = jump;
     }
 
+    public void newLevel(int dir, Player player){
+        playerAction = noWeaponIdle;
+        currentHealth = maxHealth;
+        if(dir == 1){
+            hitbox.y += Game.gameHeight;
+        }else{
+            hitbox.y = 0;
+        }
+
+        if(!grounded(hitbox,lvl)){
+            inAir = true;
+        }
+    }
+
     public void resetAll(){
         resetDir();
         inAir = false;
@@ -278,6 +317,8 @@ public class Player extends Entity{
         if(!grounded(hitbox,lvl)){
             inAir = true;
         }
+
+        spawnLevel = 0;
     }
 
     public void returnCheckpoint() {
@@ -294,9 +335,11 @@ public class Player extends Entity{
         }
     }
 
-    public void saveCheckpoint() {
+    public void saveCheckpoint(int level) {
         saveSpawnY = hitbox.y;
         saveSpawnX = hitbox.x;
+        spawnLevel = level;
+        System.out.println(level);
     }
 }
 

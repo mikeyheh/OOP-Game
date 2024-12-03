@@ -23,7 +23,7 @@ public class constant {
         public static final int Spike = 4;
         public static final int archer_left = 6;
         public static final int archer_right = 5;
-        public static final int Checkpoint = 8;
+        public static final int Checkpoint = 7;
 
         public static final int defaultSpikeWidth = 32;
         public static final int defaultSpikeHeight = 32;

@@ -2,6 +2,7 @@ package Objects;
 
 import GameStates.Playing;
 import Levels.level;
+import Levels.levelManager;
 import entities.Player;
 import utils.loadSave;
 import java.awt.*;
@@ -13,7 +14,7 @@ import javax.swing.*;
 
 import static utils.constant.ObjectConstants.*;
 import static utils.constant.Projectiles.*;
-import static utils.helpMethods.projectileHitGround;
+import static utils.helpMethods.*;
 
 public class ObjectManager {
     private Playing playing;
@@ -25,16 +26,27 @@ public class ObjectManager {
     private ArrayList<Projectile> projectiles = new ArrayList<>();
     private ArrayList<Checkpoint> checkpoints;
     private int dir;
+    private int currLevel;
 
     public ObjectManager(Playing playing){
         this.playing = playing;
         loadImgs();
     }
 
+    public void checkReachedEdge(Player player){
+        if((int)player.getHitbox().y < 0){
+            playing.loadNextLevel();
+        }
+
+        if((int)player.getHitbox().y >= Game.gameHeight+Game.tileSize){
+            playing.loadPrevLevel();
+        }
+    }
+
     public void checkCheckpointTouched(Player player) {
         for(Checkpoint s : checkpoints){
             if(s.getHitbox().intersects(player.getHitbox())){
-                player.saveCheckpoint();
+                player.saveCheckpoint(currLevel);
             }
         }
     }
@@ -42,7 +54,7 @@ public class ObjectManager {
     public void checkSpikesTouched(Player player){
         for(Spikes s: spikes){
             if(s.getHitbox().intersects(player.getHitbox())){
-                player.kill();
+//                player.kill();
             }
         }
 //        for(Archer a: archers){
@@ -52,10 +64,11 @@ public class ObjectManager {
 //        }
     }
 
-    public void loadObjects(level newLevel){
+    public void loadObjects(level newLevel, int levelIndex){
         spikes = newLevel.getSpikes();
         archers = newLevel.getArchers();
         checkpoints = newLevel.getCheckpoints();
+        currLevel = levelIndex;
         projectiles.clear();
     }
 
@@ -168,7 +181,7 @@ public class ObjectManager {
     }
 
     public void resetAllObjects(){
-        loadObjects(playing.getLevelManager().getCurrentLevel());
+        loadObjects(playing.getLevelManager().getCurrentLevel(), currLevel);
         for(Archer a : archers){
             a.reset();
         }

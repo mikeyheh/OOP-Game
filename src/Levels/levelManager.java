@@ -1,8 +1,6 @@
 package Levels;
 
-import GameStates.Gamestate;
 import Main.Game;
-import entities.EnemyManager;
 import utils.loadSave;
 
 import java.awt.*;
@@ -67,6 +65,15 @@ public class levelManager {
 
     }
 
+    public int getCurrentLevelIndex() {
+        return lvlindex;
+    }
+
+
+    public BufferedImage getNextLevelImg(){
+        return Levels.level.getImg(levels.get(lvlindex+1));
+    }
+
     public level getCurrentLevel(){
         return levels.get(lvlindex);
     }
@@ -78,11 +85,29 @@ public class levelManager {
         lvlindex++;
         if(lvlindex >= levels.size()){
             lvlindex = 0;
-            Gamestate.state = Gamestate.Menu;
         }
         level newLevel = levels.get(lvlindex);
         game.getPlaying().getEnemyManager().loadEnemies(newLevel);
         game.getPlaying().getPlayer().loadLvlData(newLevel.getLevelData());
     }
 
+    public void loadSelectedLevel(int level){
+        lvlindex = level;
+        if(lvlindex >= levels.size()){
+            lvlindex = 0;
+        }
+        level newLevel = levels.get(lvlindex);
+        game.getPlaying().getEnemyManager().loadEnemies(newLevel);
+        game.getPlaying().getPlayer().loadLvlData(newLevel.getLevelData());
+    }
+
+    public void loadPrevLevel() {
+        lvlindex--;
+        if(lvlindex <= levels.size()){
+            lvlindex = 0;
+        }
+        level newLevel = levels.get(lvlindex);
+        game.getPlaying().getEnemyManager().loadEnemies(newLevel);
+        game.getPlaying().getPlayer().loadLvlData(newLevel.getLevelData());
+    }
 }

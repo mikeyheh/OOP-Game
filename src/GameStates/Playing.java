@@ -6,11 +6,13 @@ import Objects.ObjectManager;
 import UI.GameOverOverlay;
 import entities.EnemyManager;
 import entities.Player;
-import Objects.ObjectManager;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+
+import static utils.helpMethods.GetLevelData;
+import static utils.helpMethods.canMove;
 
 public class Playing extends State implements Statemethods {
     private Player player;
@@ -26,36 +28,77 @@ public class Playing extends State implements Statemethods {
         loadStartLevel();
     }
     public void loadNextLevel(){
-        resetAll();
-        levelManager.loadNextLevel();
+        if(levelManager.getCurrentLevelIndex() < levelManager.numberofLevels()-1)
+        {
+             if(canMove(player.getHitbox().x, player.getHitbox().y/Game.scale + Game.gameHeight, player.getHitbox().width, Game.gameHeight, GetLevelData(levelManager.getNextLevelImg())))
+            {
+                player.newLevel(1, player);
+                enemyManager.resetEnemies();
+                objectManager.resetAllObjects();
+
+                levelManager.loadNextLevel();
+                enemyManager.loadEnemies(levelManager.getCurrentLevel());
+                objectManager.loadObjects(levelManager.getCurrentLevel(), levelManager.getCurrentLevelIndex());
+            }else{
+                 player.setAirSpeed();
+             }
+        }else{
+            player.setAirSpeed();
+        }
+    }
+
+    public void loadPrevLevel() {
+
+        if(levelManager.getCurrentLevelIndex() > 0){
+            player.newLevel(-1, player);
+            enemyManager.resetEnemies();
+            objectManager.resetAllObjects();
+            levelManager.loadPrevLevel();
+            enemyManager.loadEnemies(levelManager.getCurrentLevel());
+            objectManager.loadObjects(levelManager.getCurrentLevel(), levelManager.getCurrentLevelIndex());
+        }else{
+            gameOver = true;
+        }
+
     }
 
     private void loadStartLevel() {
         enemyManager.loadEnemies(levelManager.getCurrentLevel());
-        objectManager.loadObjects(levelManager.getCurrentLevel());
+        objectManager.loadObjects(levelManager.getCurrentLevel(), levelManager.getCurrentLevelIndex());
     }
 
     private void initClasses(){
         levelManager = new levelManager(game);
         enemyManager = new EnemyManager(game);
         objectManager = new ObjectManager(this);
-        player = new Player(100 * Game.scale,100 * Game.scale,(int) (50*Game.scale), (int) (37*Game.scale),this);
+        player = new Player(40 * Game.scale,0 * Game.scale,(int) (50*Game.scale), (int) (37*Game.scale),this);
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
         gameoveroverlay = new GameOverOverlay(this);
     }
 
+
     public void resetAll(){
         gameOver = false;
-        player.resetAll();
+
         enemyManager.resetEnemies();
         objectManager.resetAllObjects();
+
+        levelManager.loadSelectedLevel(0);
+        enemyManager.loadEnemies(levelManager.getCurrentLevel());
+        objectManager.loadObjects(levelManager.getCurrentLevel(), levelManager.getCurrentLevelIndex());
+        player.resetAll();
     }
 
     public void returnCheckpoint() {
         gameOver = false;
-        player.returnCheckpoint();
         enemyManager.resetEnemies();
         objectManager.resetAllObjects();
+
+        levelManager.loadSelectedLevel(player.getSpawnLevel());
+        enemyManager.loadEnemies(levelManager.getCurrentLevel());
+        objectManager.loadObjects(levelManager.getCurrentLevel(), levelManager.getCurrentLevelIndex());
+        player.returnCheckpoint();
+
     }
 
 
@@ -63,6 +106,10 @@ public class Playing extends State implements Statemethods {
         objectManager.checkSpikesTouched(player);
     }
     public void checkCheckpointTouched(Player player) { objectManager.checkCheckpointTouched(player); }
+
+    public void checkReachedEdge(Player player){
+        objectManager.checkReachedEdge(player);
+    }
 
     public void setGameOver(boolean gameOver){
         this.gameOver = gameOver;
@@ -175,6 +222,8 @@ public class Playing extends State implements Statemethods {
     public levelManager getLevelManager() {
         return levelManager;
     }
+
+
 }
 
 

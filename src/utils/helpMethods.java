@@ -27,14 +27,12 @@ public class helpMethods {
         }
         return false;
     }
-    private static boolean isSolid(float x, float y, int[][] lvl){
-        int maxWidth = lvl[0].length * Game.tileSize;
-
-        if(x < 0 || x >= maxWidth){
+    public static boolean isSolid(float x, float y, int[][] lvl){
+        if(x < 0 || x >= Game.gameWidth){
             return true;
         }
-        if(y < 0 || y >= Game.gameHeight){
-            return true;
+        if( y < 0 || y >= Game.gameHeight){
+            return false;
         }
 
         float xIndex = x/Game.tileSize;
