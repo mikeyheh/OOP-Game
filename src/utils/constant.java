@@ -22,11 +22,9 @@ public class constant {
     public static class ObjectConstants{
         public static final int Checkpoint = 0;
         public static final int Spike = 1;
-        public static final int archer_left = 2;
-        public static final int archer_right = 3;
+        public static final int archer_right = 2;
+        public static final int archer_left = 3;
         //Slime is 4
-
-
 
         public static final int defaultSpikeWidth = 32;
         public static final int defaultSpikeHeight = 32;
