@@ -35,8 +35,6 @@ public class helpMethods {
             return false;
         }
 
-        float xIndex = x/Game.tileSize;
-        float yIndex = y/Game.tileSize;
         int xIndex = (int)x/Game.tileSize;
         int yIndex = (int)y/Game.tileSize;
 
