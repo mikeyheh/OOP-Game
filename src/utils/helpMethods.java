@@ -40,7 +40,7 @@ public class helpMethods {
 
         int val = lvl[(int)yIndex][(int)xIndex];
 
-        if(val >= 108 || val < 0 || val != 11){
+        if(val != 11){
             return true;
         }
         return false;
@@ -90,7 +90,7 @@ public class helpMethods {
             for(int i = 0; i <img.getWidth();i++){
                 Color color = new Color(img.getRGB(i,j));
                 int val = color.getRed();
-                if(val >= 108){
+                if(val >= loadSave.tilesSum){
                     val = 11;
                 }
                 lvl[j][i] = val;

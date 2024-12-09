@@ -48,26 +48,36 @@ public class levelManager {
     private void importOutsideSprite() {
         BufferedImage img = loadSave.getSpriteAtlas(loadSave.levelAtlas);
         BufferedImage img2 = loadSave.getSpriteAtlas(loadSave.levelAtlas2);
+        BufferedImage img3 = loadSave.getSpriteAtlas(loadSave.levelAtlas3);
 
         // 48 levelAtlas, 60, levelAtlas2
-        level = new BufferedImage[108];
+        level = new BufferedImage[loadSave.tilesSum];
         int currIndex = 0;
         int pixelSize = 0;
 
-        // Atlas1
+        // Atlas1 - plains
         pixelSize = 32;
         for(int j = 0; j < 4; j++){
-            for (int i = 0; i < 12; i++){
+            for (int i = 0; i < 12 && currIndex < loadSave.tilesSum; i++){
                 level[currIndex] = img.getSubimage(i*pixelSize, j*pixelSize, pixelSize, pixelSize);
                 currIndex++;
             }
         }
 
-        // Atlas2
+        // Atlas2 - ice
         pixelSize = 32;
         for(int j = 0; j < 6; j++){
-            for (int i = 0; i < 10; i++){
+            for (int i = 0; i < 10 && currIndex < loadSave.tilesSum; i++){
                 level[currIndex] = img2.getSubimage(i*pixelSize, j*pixelSize, pixelSize, pixelSize);
+                currIndex++;
+            }
+        }
+
+        // Atlas3 - lava
+        pixelSize = 32;
+        for(int j = 0; j < 6; j++){
+            for (int i = 0; i < 8 && currIndex < loadSave.tilesSum; i++){
+                level[currIndex] = img3.getSubimage(i*pixelSize, j*pixelSize, pixelSize, pixelSize);
                 currIndex++;
             }
         }

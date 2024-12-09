@@ -6,27 +6,34 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class loadSave {
-    public static final String menuButtons = "menu_buttons.png";
-    public static final String menuBackground = "menu_background.png";
-    public static final String menuBackground2 = "menu_backgroundImg.png";
+    //menus & ui
+    public static final String menuButtons = "ui/menu_buttons.png";
+    public static final String menuBackground = "ui/menu_background.png";
+    public static final String menuBackground2 = "backgroundImgs/menu_backgroundImg.png";
 
-    public static final String gameBackgroundPlains = "gameBackground_plains.jpg";
-    public static final String gameBackgroundLava = "gameBackground_lava.jpg";
-    public static final String gameBackgroundIce = "gameBackground_ice.png";
-    public static final String gameBackgroundFinal = "gameBackground_final.jpg";
+    //game backgrounds
+    public static final String gameBackgroundPlains = "backgroundImgs/gameBackground_plains.jpg";
+    public static final String gameBackgroundLava = "backgroundImgs/gameBackground_lava.jpg";
+    public static final String gameBackgroundIce = "backgroundImgs/gameBackground_ice.png";
+    public static final String gameBackgroundFinal = "backgroundImgs/gameBackground_final.jpg";
 
-    public static final String playerAtlas ="final_anims.png";
+    //player anims
+    public static final String playerAtlas ="sprites_objects/final_anims.png";
 
-    public static final String levelAtlas ="outside_sprites.png";
-    public static final String levelAtlas2 = "snow_sprite.png";
+    // tile sets
+    public static final String levelAtlas ="tileSets/plains.png";
+    public static final String levelAtlas2 = "tileSets/ice.png";
+    public static final String levelAtlas3 = "tileSets/lava.png";
+    public static final int tilesSum = 154;
 
-    //public static final String mapAtlas ="level_one_data.png";
-    public static final String mapAtlas ="level_one_data_long.png";
-    public static final String Slimes = "slime-spritesheet.png";
-    public static final String Trap = "trap_atlas.png";
-    public static final String Archer = "archer.png";
-    public static final String Arrow = "projectile.png";
-    public static final String Checkpoint = "checkpoint.png";
+    //object anims
+    public static final String Slimes = "sprites_objects/slime-spritesheet.png";
+    public static final String Trap = "sprites_objects/trap_atlas.png";
+    public static final String Archer = "sprites_objects/archer.png";
+    public static final String Arrow = "sprites_objects/projectile.png";
+    public static final String Checkpoint = "sprites_objects/checkpoint.png";
+
+
     public static BufferedImage getSpriteAtlas(String file){
         BufferedImage img = null;
         InputStream is = loadSave.class.getResourceAsStream("/" + file);
