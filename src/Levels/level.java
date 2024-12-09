@@ -41,11 +41,11 @@ public class level {
         slimes = GetSlimes(img);
     }
 
-    private void createLevelData() {
+    public void createLevelData() {
         lvl = GetLevelData(img);
     }
 
-    static BufferedImage getImg(level level) {
+    public BufferedImage getImg() {
         return img;
     }
 

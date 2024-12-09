@@ -20,10 +20,13 @@ public class constant {
         public static final float speed = 0.5f * Game.scale;
     }
     public static class ObjectConstants{
-        public static final int Spike = 4;
-        public static final int archer_left = 6;
-        public static final int archer_right = 5;
-        public static final int Checkpoint = 7;
+        public static final int Checkpoint = 0;
+        public static final int Spike = 1;
+        public static final int archer_left = 2;
+        public static final int archer_right = 3;
+        //Slime is 4
+
+
 
         public static final int defaultSpikeWidth = 32;
         public static final int defaultSpikeHeight = 32;
@@ -52,7 +55,7 @@ public class constant {
     }
 
     public static class enemyConstants{
-        public static final int Slime = 0;
+        public static final int Slime = 4;
 
         public static final int idle = 0;
         public static final int slimeRunning = 1;

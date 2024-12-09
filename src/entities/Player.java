@@ -217,7 +217,7 @@ public class Player extends Entity{
     public void changeHealth(int val){
         currentHealth += val;
         if(currentHealth <= 0){
-           currentHealth = 0;
+            currentHealth = 0;
         }
         else if(currentHealth >= maxHealth){
             currentHealth = maxHealth;
@@ -229,14 +229,14 @@ public class Player extends Entity{
     }
 
     private void loadAnimations() {
-            BufferedImage img = loadSave.getSpriteAtlas(loadSave.playerAtlas);
+        BufferedImage img = loadSave.getSpriteAtlas(loadSave.playerAtlas);
 
-            animations = new BufferedImage[8][6];
-            for(int j = 0; j<animations.length;j++) {
-                for (int i = 0; i < animations[j].length; i++) {
-                    animations[j][i] = img.getSubimage(i * 50, j * 37, 50, 37);
-                }
+        animations = new BufferedImage[8][6];
+        for(int j = 0; j<animations.length;j++) {
+            for (int i = 0; i < animations[j].length; i++) {
+                animations[j][i] = img.getSubimage(i * 50, j * 37, 50, 37);
             }
+        }
 
     }
     public void loadLvlData(int [][] lvl){
@@ -339,8 +339,7 @@ public class Player extends Entity{
         saveSpawnY = hitbox.y;
         saveSpawnX = hitbox.x;
         spawnLevel = level;
-        System.out.println(level);
+//        System.out.println(level);
     }
 }
-
 

@@ -1,16 +1,9 @@
 package Main;
 
-
 import GameStates.Gamestate;
 import GameStates.Menu;
 import GameStates.Playing;
-import UI.GameOverOverlay;
-import entities.EnemyManager;
-import entities.Player;
-import Levels.levelManager;
 
-
-import javax.tools.Tool;
 import java.awt.*;
 
 public class Game implements Runnable{
@@ -33,6 +26,9 @@ public class Game implements Runnable{
     public final static int tileSize = (int) (tileDefaultSize * scale);
     public final static int gameWidth = tileSize * tileWidth;
     public final static int gameHeight = tileSize * tileHeight;
+
+    public final static int startingX = 40;
+    public final static  int startingY = 300;
 
     public Game(){
         initClasses();

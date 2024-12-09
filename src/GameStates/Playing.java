@@ -27,22 +27,23 @@ public class Playing extends State implements Statemethods {
         initClasses();
         loadStartLevel();
     }
-    public void loadNextLevel(){
-        if(levelManager.getCurrentLevelIndex() < levelManager.numberofLevels()-1)
-        {
-             if(canMove(player.getHitbox().x, player.getHitbox().y/Game.scale + Game.gameHeight, player.getHitbox().width, Game.gameHeight, GetLevelData(levelManager.getNextLevelImg())))
-            {
+    public void loadNextLevel() {
+        if (levelManager.getCurrentLevelIndex() < levelManager.numberofLevels() - 1) {
+            int[][] nextLevelData = levelManager.getNextLevelData();
+
+            if (canMove(player.getHitbox().x, player.getHitbox().y/Game.scale + Game.gameHeight, player.getHitbox().width, Game.gameHeight+Game.tileSize, nextLevelData)) {
                 player.newLevel(1, player);
                 enemyManager.resetEnemies();
                 objectManager.resetAllObjects();
 
                 levelManager.loadNextLevel();
                 enemyManager.loadEnemies(levelManager.getCurrentLevel());
-                objectManager.loadObjects(levelManager.getCurrentLevel(), levelManager.getCurrentLevelIndex());
-            }else{
-                 player.setAirSpeed();
-             }
-        }else{
+                objectManager.loadObjects(levelManager.getCurrentLevel(), levelManager.getCurrentLevelIndex()
+                );
+            } else {
+                player.setAirSpeed();
+            }
+        } else {
             player.setAirSpeed();
         }
     }
@@ -71,7 +72,7 @@ public class Playing extends State implements Statemethods {
         levelManager = new levelManager(game);
         enemyManager = new EnemyManager(game);
         objectManager = new ObjectManager(this);
-        player = new Player(40 * Game.scale,0 * Game.scale,(int) (50*Game.scale), (int) (37*Game.scale),this);
+        player = new Player(Game.startingX * Game.scale,Game.startingY * Game.scale,(int) (50*Game.scale), (int) (37*Game.scale),this);
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
         gameoveroverlay = new GameOverOverlay(this);
     }
@@ -101,11 +102,12 @@ public class Playing extends State implements Statemethods {
 
     }
 
-
     public void checkSpikesTouched(Player player) {
         objectManager.checkSpikesTouched(player);
     }
-    public void checkCheckpointTouched(Player player) { objectManager.checkCheckpointTouched(player); }
+    public void checkCheckpointTouched(Player player) {
+        objectManager.checkCheckpointTouched(player);
+    }
 
     public void checkReachedEdge(Player player){
         objectManager.checkReachedEdge(player);
@@ -222,6 +224,7 @@ public class Playing extends State implements Statemethods {
     public levelManager getLevelManager() {
         return levelManager;
     }
+
 
 
 }

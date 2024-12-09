@@ -108,7 +108,7 @@ public class helpMethods {
         for(int j = 0; j < img.getHeight(); j++){
             for(int i = 0; i <img.getWidth();i++){
                 Color color = new Color(img.getRGB(i,j));
-                int val = color.getGreen();
+                int val = color.getBlue();
                 if(val ==  constant.enemyConstants.Slime) {
                     list.add(new Slime(i * Game.tileSize, j* Game.tileSize));
                 }

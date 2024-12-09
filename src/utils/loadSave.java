@@ -10,6 +10,11 @@ public class loadSave {
     public static final String menuBackground = "menu_background.png";
     public static final String menuBackground2 = "menu_backgroundImg.png";
 
+    public static final String gameBackgroundPlains = "gameBackground_plains.jpg";
+    public static final String gameBackgroundLava = "gameBackground_lava.jpg";
+    public static final String gameBackgroundIce = "gameBackground_ice.png";
+    public static final String gameBackgroundFinal = "gameBackground_final.jpg";
+
     public static final String playerAtlas ="final_anims.png";
 
     public static final String levelAtlas ="outside_sprites.png";
