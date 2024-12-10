@@ -1,5 +1,6 @@
 package GameStates;
 
+import Audio.AudioManager;
 import Levels.levelManager;
 import Main.Game;
 import Objects.ObjectManager;
@@ -22,11 +23,24 @@ public class Playing extends State implements Statemethods {
     private boolean gameOver;
     private GameOverOverlay gameoveroverlay;
 
+    public final String backgroundMusic = "/audio/gameMusic.wav";
+    public final AudioManager audioManager = new AudioManager();
+
     public Playing(Game game) {
         super(game);
         initClasses();
         loadStartLevel();
     }
+
+    public void playGameMusic(String path){
+        audioManager.playMusic(path);
+        audioManager.setVolume(0.7f);
+    }
+
+    public void stopPlayingMusic() {
+        audioManager.stopCurrentMusic(); // Stop music when leaving the playing state
+    }
+
     public void loadNextLevel() {
         if (levelManager.getCurrentLevelIndex() < levelManager.numberofLevels() - 1) {
             int[][] nextLevelData = levelManager.getNextLevelData();

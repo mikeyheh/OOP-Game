@@ -51,7 +51,7 @@ public class ObjectManager {
     public void checkSpikesTouched(Player player) {
         for (Spikes s : spikes) {
             if (s.getHitbox().intersects(player.getHitbox())) {
-//                player.kill();
+                player.kill();
             }
         }
 //        for(Archer a: archers){
