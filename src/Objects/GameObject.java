@@ -13,7 +13,7 @@ public class GameObject {
     protected boolean doAnim;
     protected int animTick, animIndex;
     protected int xOffset, yOffset;
-    public int animSpeed = 50;
+    public int animSpeed = 80;
 
     public GameObject(int x, int y, int objType){
         this.x = x;
@@ -33,8 +33,8 @@ public class GameObject {
     }
 
     protected void updateAnimTick(float multiplier){
-        animTick = (int)(animTick + 1 + multiplier);
-        if(animTick >= animSpeed){
+        animTick++;
+        if(animTick >= animSpeed / multiplier){
             animTick = 0;
             animIndex++;
             if(animIndex >= getSpriteAmount(objType)){

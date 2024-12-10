@@ -33,6 +33,8 @@ public class loadSave {
     public static final String Archer = "sprites_objects/archer.png";
     public static final String Arrow = "sprites_objects/projectile.png";
     public static final String Checkpoint = "sprites_objects/checkpoint.png";
+    public static final String Key = "sprites_objects/key.png";
+    public static final String Chest = "sprites_objects/chest.png";
 
 
     public static BufferedImage getSpriteAtlas(String file){

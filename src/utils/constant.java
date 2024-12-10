@@ -25,6 +25,8 @@ public class constant {
         public static final int archer_right = 2;
         public static final int archer_left = 3;
         //Slime is 4
+        public static final int Key = 5;
+        public static final int Chest = 6;
 
         public static final int defaultSpikeWidth = 32;
         public static final int defaultSpikeHeight = 32;
@@ -41,12 +43,26 @@ public class constant {
         public static final int checkpointWidth = (int)(defaultCheckpointWidth*Game.scale);
         public static final int checkpointHeight = (int)(defaultCheckpointHeight*Game.scale);
 
+        public static final int defaultKeyWidth = 20;
+        public static final int defaultKeyHeight = 20;
+        public static final int keyWidth = (int)(defaultKeyWidth*Game.scale);
+        public static final int keyHeight = (int)(defaultKeyHeight*Game.scale);
+
+        public static final int defaultChestWidth = 50;
+        public static final int defaultChestHeight = 50;
+        public static final int chestWidth = (int)(defaultChestWidth*Game.scale);
+        public static final int chestHeight = (int)(defaultChestHeight*Game.scale);
+
         public static int getSpriteAmount(int objType){
             switch(objType){
                 case archer_left, archer_right:
                     return 7;
                 case Checkpoint:
                     return 7;
+                case Key:
+                    return 7;
+                case Chest:
+                    return 6;
             }
             return 1;
         }

@@ -1,10 +1,7 @@
 package utils;
 
 import Main.Game;
-import Objects.Archer;
-import Objects.Checkpoint;
-import Objects.Projectile;
-import Objects.Spikes;
+import Objects.*;
 import entities.Slime;
 
 import java.awt.*;
@@ -76,7 +73,7 @@ public class helpMethods {
     }
 
     public static boolean isFloor(Rectangle2D.Float hitbox, float xspeed,int[][]lvl ){
-        if (xspeed > 00) {
+        if (xspeed > 0) {
             return isSolid(hitbox.x +  xspeed + hitbox.width , hitbox.y + hitbox.height + 1 , lvl);
         }else{
             return isSolid(hitbox.x + xspeed, hitbox.y + hitbox.height + 1 , lvl);
@@ -154,6 +151,36 @@ public class helpMethods {
                 int val = color.getBlue();
                 if(val == Checkpoint) {
                     list.add(new Checkpoint(i * Game.tileSize, j* Game.tileSize, Checkpoint));
+                }
+            }
+        }
+        return list;
+    }
+
+    public static ArrayList<Key> GetKeys(BufferedImage img) {
+        ArrayList<Key> list = new ArrayList<>();
+
+        for(int j = 0; j < img.getHeight(); j++){
+            for(int i = 0; i <img.getWidth();i++){
+                Color color = new Color(img.getRGB(i,j));
+                int val = color.getBlue();
+                if(val == Key) {
+                    list.add(new Key(i * Game.tileSize, j* Game.tileSize, Key));
+                }
+            }
+        }
+        return list;
+    }
+
+    public static ArrayList<Chest> GetChests(BufferedImage img) {
+        ArrayList<Chest> list = new ArrayList<>();
+
+        for(int j = 0; j < img.getHeight(); j++){
+            for(int i = 0; i <img.getWidth();i++){
+                Color color = new Color(img.getRGB(i,j));
+                int val = color.getBlue();
+                if(val == Chest) {
+                    list.add(new Chest(i * Game.tileSize, j* Game.tileSize, Chest));
                 }
             }
         }
