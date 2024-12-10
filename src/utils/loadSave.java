@@ -56,7 +56,7 @@ public class loadSave {
 
     public static BufferedImage[] GetAllLevels() {
         // List all resource files manually (e.g., 1.png, 2.png, etc.)
-        String[] levelFiles = {"1.png", "2.png", "3.png", "4.png", "5.png"}; // Update with actual file names
+        String[] levelFiles = {"1.png", "2.png", "3.png", "4.png", "5.png", "6.png"}; // Update with actual file names
         BufferedImage[] imgs = new BufferedImage[levelFiles.length];
 
         for (int i = 0; i < levelFiles.length; i++) {
