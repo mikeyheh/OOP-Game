@@ -1,6 +1,7 @@
 package UI;
 
 import GameStates.Gamestate;
+import GameStates.Menu;
 import GameStates.Playing;
 import Main.Game;
 
@@ -49,13 +50,13 @@ public class GameOverOverlay {
     }
 
     public void keyPressed(KeyEvent e){
-        if(e.getKeyCode()==KeyEvent.VK_ESCAPE){
-            playing.resetAll();
-            Gamestate.state = Gamestate.Menu;
-        } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            playing.returnCheckpoint();
-            Gamestate.state = Gamestate.Playing;
-        }
+//        if(e.getKeyCode()==KeyEvent.VK_ESCAPE){
+//            playing.resetAll();
+//            Gamestate.state = Gamestate.Menu;
+//        } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+//            playing.returnCheckpoint();
+//            Gamestate.state = Gamestate.Playing;
+//        }
     }
 
     public void mousePressed(MouseEvent e) {
@@ -75,6 +76,8 @@ public class GameOverOverlay {
                         playing.returnCheckpoint();
                     }else{
                         playing.resetAll();
+                        playing.stopPlayingMusic();
+                        Menu.playMenuMusic();
                     }
                     break;
                 }

@@ -12,10 +12,6 @@ public class Archer extends GameObject {
         hitbox.y -=(int)(16*Game.scale);
     }
 
-    public void increaseSpeed(){
-        this.speedMult += (float)0.01;
-    }
-
     public void update(){
             updateAnimTick(speedMult);
     }

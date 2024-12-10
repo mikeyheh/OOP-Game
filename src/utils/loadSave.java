@@ -10,6 +10,7 @@ public class loadSave {
     public static final String menuButtons = "ui/menu_buttons.png";
     public static final String menuBackground = "ui/menu_background.png";
     public static final String menuBackground2 = "backgroundImgs/menu_backgroundImg.png";
+    public static final String menuLogo = "ui/logo.png";
 
     //game backgrounds
     public static final String gameBackgroundPlains = "backgroundImgs/gameBackground_plains.jpg";
