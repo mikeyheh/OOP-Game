@@ -3,8 +3,10 @@ package GameStates;
 import Audio.AudioManager;
 import Levels.levelManager;
 import Main.Game;
+import Objects.Chest;
 import Objects.ObjectManager;
 import UI.GameOverOverlay;
+import UI.GameWonOverlay;
 import entities.EnemyManager;
 import entities.Player;
 
@@ -21,7 +23,9 @@ public class Playing extends State implements Statemethods {
     private EnemyManager enemyManager;
     private ObjectManager objectManager;
     private boolean gameOver;
+    private boolean gameWon;
     private GameOverOverlay gameoveroverlay;
+    private GameWonOverlay gamewonoverlay;
 
     public final String backgroundMusic = "/audio/gameMusic.wav";
     public final AudioManager audioManager = new AudioManager();
@@ -89,11 +93,13 @@ public class Playing extends State implements Statemethods {
         player = new Player(Game.startingX * Game.scale,Game.startingY * Game.scale,(int) (50*Game.scale), (int) (37*Game.scale),this);
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
         gameoveroverlay = new GameOverOverlay(this);
+        gamewonoverlay = new GameWonOverlay(this);
     }
 
 
     public void resetAll(){
         gameOver = false;
+        gameWon = false;
 
         enemyManager.resetEnemies();
         objectManager.resetAllObjects();
@@ -106,6 +112,8 @@ public class Playing extends State implements Statemethods {
 
     public void returnCheckpoint() {
         gameOver = false;
+        gameWon = false;
+
         enemyManager.resetEnemies();
         objectManager.resetAllObjects();
 
@@ -122,7 +130,7 @@ public class Playing extends State implements Statemethods {
     public void checkCheckpointTouched(Player player) {
         objectManager.checkCheckpointTouched(player);
     }
-
+    public void checkKeyTouched(Player player) {objectManager.checkKeyTouched(player);}
     public void checkReachedEdge(Player player){
         objectManager.checkReachedEdge(player);
     }
@@ -130,28 +138,35 @@ public class Playing extends State implements Statemethods {
     public void setGameOver(boolean gameOver){
         this.gameOver = gameOver;
     }
+    public void setGameWon(boolean gameWon){this.gameWon = gameWon;}
 
     @Override
     public void update() {
-        if(!gameOver){
-            levelManager.update();
-            objectManager.update(levelManager.getCurrentLevel().getLevelData(),player);
-
-            player.update();
-            enemyManager.update(levelManager.getCurrentLevel().getLevelData(),player);
+        if (gameWon) {
+                gamewonoverlay.update();
         }else{
-            gameoveroverlay.update();
-        }
+            if(!gameOver){
+                levelManager.update();
+                objectManager.update(levelManager.getCurrentLevel().getLevelData(),player);
 
+                player.update();
+                enemyManager.update(levelManager.getCurrentLevel().getLevelData(),player);
+            }else{
+                gameoveroverlay.update();
+            }
+        }
     }
 
     public void draw(Graphics g){
         levelManager.draw(g);
-        player.render(g);
         enemyManager.draw(g);
         objectManager.draw(g);
+        player.render(g);
         if(gameOver){
             gameoveroverlay.draw(g);
+        }
+        if(gameWon){
+            gamewonoverlay.draw(g);
         }
     }
 
@@ -165,12 +180,18 @@ public class Playing extends State implements Statemethods {
         if(gameOver){
             gameoveroverlay.mousePressed(e);
         }
+        if(gameWon){
+            gamewonoverlay.mousePressed(e);
+        }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         if(gameOver){
             gameoveroverlay.mouseReleased(e);
+        }
+        if(gameWon){
+            gamewonoverlay.mouseReleased(e);
         }
     }
 
@@ -179,13 +200,19 @@ public class Playing extends State implements Statemethods {
         if(gameOver){
             gameoveroverlay.mouseMoved(e);
         }
+        if(gameWon){
+            gamewonoverlay.mouseMoved(e);
+        }
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if(gameOver){
-            gameoveroverlay.keyPressed(e);
-        }
+        if(gameWon){
+            gamewonoverlay.keyPressed(e);
+        }else{
+            if(gameOver){
+                gameoveroverlay.keyPressed(e);
+            }
             else{
                 switch (e.getKeyCode()){
                     case KeyEvent.VK_W:
@@ -197,10 +224,10 @@ public class Playing extends State implements Statemethods {
                     case KeyEvent.VK_D:
                         player.setRight(true);
                         break;
+                }
+
             }
-
         }
-
     }
 
     @Override
@@ -239,8 +266,18 @@ public class Playing extends State implements Statemethods {
         return levelManager;
     }
 
+    public boolean isGameWon() {
+        return gameWon;
+    }
 
-
+    private boolean allChestsAnimationComplete() {
+        for (Chest chest : objectManager.getChests()) {
+            if (!chest.isAnimationComplete()) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
 
 

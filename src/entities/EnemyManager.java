@@ -15,7 +15,10 @@ public class EnemyManager {
 
     private BufferedImage[][] slimeArr;
     private ArrayList<Slime> slimes = new ArrayList<>();
+    private Game game;
+
     public EnemyManager(Game game){
+        this.game = game;
         loadEnemy();
     }
 
@@ -25,6 +28,10 @@ public class EnemyManager {
 
 
     public void update(int[][] lvldata, Player player){
+        if(game.getPlaying().isGameWon()){
+            return;
+        }
+
         for(Slime s : slimes){
             s.update(lvldata, player);
         }
@@ -65,5 +72,9 @@ public class EnemyManager {
         for(Slime s : slimes){
             s.resetEnemy();
         }
+    }
+
+    public Slime[] getSlimes() {
+        return slimes.toArray(new Slime[0]);
     }
 }

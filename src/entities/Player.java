@@ -55,13 +55,21 @@ public class Player extends Entity{
             playing.setGameOver(true);
             return;
         }
+
+        if(playing.isGameWon()) {
+            return;
+        }
+
         checkSpikesTouched();
         checkCheckpointTouched();
+        checkKeyTouched();
         checkReachedEdge();
         updatePosition();
         updateAnimationTick();
         setAnimation();
     }
+
+
 
     public int getSpawnLevel(){
         return spawnLevel;
@@ -70,7 +78,7 @@ public class Player extends Entity{
     private void checkReachedEdge() {
         playing.checkReachedEdge(this);
     }
-
+    private void checkKeyTouched() { playing.checkKeyTouched(this); }
     private void checkCheckpointTouched() {
         playing.checkCheckpointTouched(this);
     }
@@ -308,6 +316,7 @@ public class Player extends Entity{
         moving = false;
         playerAction = noWeaponIdle;
         currentHealth = maxHealth;
+        airReset();
 
         hitbox.x = x;
         hitbox.y = y;
@@ -327,6 +336,7 @@ public class Player extends Entity{
         moving = false;
         playerAction = noWeaponIdle;
         currentHealth = maxHealth;
+        airReset();
 
         hitbox.x = saveSpawnX;
         hitbox.y = saveSpawnY;
@@ -340,6 +350,19 @@ public class Player extends Entity{
         saveSpawnX = hitbox.x;
         spawnLevel = level;
 //        System.out.println(level);
+    }
+
+    public void restrictMovement(){
+        left = false;
+        right = false;
+        up = false;
+        down = false;
+
+        playerSpeed = 0;
+    }
+
+    public void unrestrictMovement(){
+        playerSpeed = 1.0f * Game.scale;
     }
 }
 

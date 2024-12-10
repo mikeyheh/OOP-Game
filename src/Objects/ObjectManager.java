@@ -3,6 +3,7 @@ package Objects;
 import GameStates.Playing;
 import Levels.level;
 import entities.Player;
+import entities.Slime;
 import utils.loadSave;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -16,12 +17,16 @@ import static utils.helpMethods.*;
 public class ObjectManager {
     private Playing playing;
     private BufferedImage[][] archerImgs; //For animations of objects
-    private BufferedImage[] checkpointImgs;
+    private BufferedImage[] checkpointImgs, keyImgs, chestImgs;
     private BufferedImage spikeImg, arrowImg;
+
     private ArrayList<Spikes> spikes;
     private ArrayList<Archer> archers;
     private ArrayList<Projectile> projectiles = new ArrayList<>();
     private ArrayList<Checkpoint> checkpoints;
+    private ArrayList<Key> keys;
+    private ArrayList<Chest> chests;
+
     private int dir;
     private int currLevel;
 
@@ -29,6 +34,17 @@ public class ObjectManager {
         this.playing = playing;
         loadImgs();
     }
+
+    public void checkKeyTouched(Player player) {
+        for (Key s : keys) {
+            if (s.getHitbox().intersects(player.getHitbox())) {
+                // insert anims here
+                playing.setGameWon(true);
+                break;
+            }
+        }
+    }
+
 
     public void checkReachedEdge(Player player) {
         if ((int) player.getHitbox().y < 0) {
@@ -65,6 +81,8 @@ public class ObjectManager {
         spikes = newLevel.getSpikes();
         archers = newLevel.getArchers();
         checkpoints = newLevel.getCheckpoints();
+        keys = newLevel.getKeys();
+        chests = newLevel.getChests();
         currLevel = levelIndex;
         projectiles.clear();
     }
@@ -87,9 +105,31 @@ public class ObjectManager {
             checkpointImgs[i] = tempCheckpoint.getSubimage(i * defaultCheckpointWidth, 0, defaultCheckpointWidth, defaultCheckpointHeight);
         }
 
+        keyImgs = new BufferedImage[7];
+        BufferedImage tempKey = loadSave.getSpriteAtlas(loadSave.Key);
+        int keyIndex = 0;
+        for (int i = 0; i < 3; i++) {
+            for(int j = 0; j < 3 && keyIndex < keyImgs.length ; j++){
+                keyImgs[keyIndex] = tempKey.getSubimage(j * defaultKeyWidth, i * defaultKeyHeight, defaultKeyWidth, defaultKeyHeight);
+                keyIndex++;
+            }
+        }
+
+        chestImgs = new BufferedImage[6];
+        BufferedImage tempChest = loadSave.getSpriteAtlas(loadSave.Chest);
+        for(int i = 0; i < chestImgs.length; i++){
+            chestImgs[i] = tempChest.getSubimage(i * defaultChestWidth, 0, defaultChestWidth, defaultChestHeight);
+        }
     }
 
     public void update(int[][] lvldata, Player player) {
+        if (playing.isGameWon()) {
+            for (Chest chest : chests) {
+                chest.update();
+            }
+            return;
+        }
+
         for (Archer a : archers) {
             a.update();
             if (a.getAnimIndex() == 0 && a.getAnimTick() == 0) {
@@ -104,6 +144,11 @@ public class ObjectManager {
         for (Checkpoint a : checkpoints) {
             a.update();
         }
+
+        for (Key a: keys){
+            a.update();
+        }
+
         updateProjectiles(lvldata, player);
     }
 
@@ -126,6 +171,8 @@ public class ObjectManager {
         drawTraps(g);
         drawArchers(g);
         drawCheckpoints(g);
+        drawKeys(g);
+        drawChests(g);
         drawProjectiles(g);
     }
 
@@ -177,6 +224,22 @@ public class ObjectManager {
         }
     }
 
+    private void drawKeys(Graphics g) {
+        for(Key s : keys){
+            g.drawImage(keyImgs[s.getAnimIndex()], (int)(s.getHitbox().x), (int)(s.getHitbox().y), keyWidth, keyHeight, null);
+//            g.setColor(Color.RED);
+//            g.drawRect((int) s.getHitbox().x, (int) (s.getHitbox().y), (int) s.getHitbox().width, (int) s.getHitbox().height);
+        }
+    }
+
+    private void drawChests(Graphics g) {
+        for(Chest s : chests){
+            g.drawImage(chestImgs[s.getAnimIndex()], (int)(s.getHitbox().x - Game.scale*8), (int)(s.getHitbox().y - Game.scale * 8), (int)(chestWidth/1.5), (int)(chestHeight/1.5), null);
+//            g.setColor(Color.RED);
+//            g.drawRect((int) s.getHitbox().x, (int) (s.getHitbox().y), (int) s.getHitbox().width, (int) s.getHitbox().height);
+        }
+    }
+
     public void resetAllObjects() {
         loadObjects(playing.getLevelManager().getCurrentLevel(), currLevel);
         for (Archer a : archers) {
@@ -184,4 +247,7 @@ public class ObjectManager {
         }
     }
 
+    public Chest[] getChests() {
+        return chests.toArray(new Chest[0]);
+    }
 }

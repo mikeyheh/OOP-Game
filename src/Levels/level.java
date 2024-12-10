@@ -1,8 +1,6 @@
 package Levels;
 
-import Objects.Archer;
-import Objects.Checkpoint;
-import Objects.Spikes;
+import Objects.*;
 import entities.Slime;
 
 import java.awt.image.BufferedImage;
@@ -18,6 +16,9 @@ public class level {
     private ArrayList<Spikes> spikes;
     private ArrayList<Archer> archers;
     private ArrayList<Checkpoint> checkpoints;
+    private ArrayList<Key> keys;
+    private ArrayList<Chest> chests;
+
     public level(BufferedImage img){
         this.img = img;
         createLevelData();
@@ -25,7 +26,13 @@ public class level {
         createSpikes();
         createArchers();
         createCheckpoints();
+        createKeys();
+        createChests();
     }
+
+    private void createChests() {chests = helpMethods.GetChests(img);}
+
+    private void createKeys() {keys = helpMethods.GetKeys(img); }
 
     private void createCheckpoints(){ checkpoints = helpMethods.GetCheckpoints(img); }
 
@@ -68,4 +75,6 @@ public class level {
         return archers;
     }
     public ArrayList<Checkpoint> getCheckpoints() { return checkpoints; }
+    public ArrayList<Key> getKeys() { return keys; }
+    public ArrayList<Chest> getChests(){ return chests; }
 }

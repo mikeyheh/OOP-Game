@@ -3,7 +3,7 @@ package Objects;
 import Main.Game;
 
 public class Archer extends GameObject {
-    private float speedMult = (float).8;
+    private float speedMult = (float).4;
 
     public Archer(int x, int y, int objType) {
         super(x, y, objType);
