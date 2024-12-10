@@ -18,9 +18,9 @@ public class levelManager {
     private BufferedImage lvlImg;
     float bgOpacity = 0.7f;
     private final int[] lvlIndex_plains = {0,1};
-    private final int[] lvlIndex_ice = {2,3};
+    private final int[] lvlIndex_ice = {2,3,4};
     private final int[] lvlIndex_lava = {};
-    private final int[] lvlIndex_final = {4};
+    private final int[] lvlIndex_final = {5};
 
     private final Map<Integer, BufferedImage> levelBackgrounds;
 
